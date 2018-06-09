@@ -1,0 +1,105 @@
+$(function () {
+    // Do javascript for non-mobile  
+    if ($('body').hasClass('is-desktop')) {
+
+        // Fix Menu Sticky ao redimensionar
+        var windowWidth = $(window).width();
+
+        $('#menu-fixed').stickit({
+            top: 110,
+            extraHeight: 0,
+            className: 'my-stick'
+        });
+
+        $(window).resize(function () {
+            if (windowWidth != $(window).width()) {
+                document.location.reload();
+            }
+            windowWidth = $(window).width();
+        });
+
+        var menuFixedAnchors = $('#menu-fixed li a');
+
+        $('#menu-fixed li a').each(function (i) {
+            var anchorID = $(this).attr('href');
+            var bodyHtml = $('body');
+
+            $(this).click(function (e) {
+                e.preventDefault();
+                bodyHtml.stop(false, false).scrollTo(anchorID, 800, {
+                    offset: -140
+                });
+            });
+        });
+
+        // Seletor de Badges     
+
+        var badgeMonoCheckbox = $('#badge-mono');
+        var badgeMonoIcon = $('#badge-mono .icon');
+        var checkedBadgeMono  = false; 
+
+        var badgeImg = $('#selector-badge .img-fluid');
+        var badgeImgLink = $('#badge-img-link');
+        var staticURI = 'http://umbler.com/assets/brand/umbler-badges/umbler-badge-hostedby-';
+        var badgeImgBgcolor = 'light-bg';
+        var badgeImgColor = '';
+        var badgeImgExt = '.png';
+        var badgeURI = staticURI + badgeImgBgcolor + badgeImgColor + badgeImgExt;
+
+        function changeImgURI() {
+            badgeImgBgcolor = badgeImgBgcolor;
+            badgeImgColor = badgeImgColor;
+            badgeURI = staticURI + badgeImgBgcolor + badgeImgColor + badgeImgExt;
+            badgeImg.attr('src', badgeURI);
+            badgeImgLink.text(badgeURI);
+        }
+
+        function toogleBadgeMono(isChecked) {
+            if (isChecked) {
+                badgeMonoCheckbox.addClass('active');
+                badgeMonoIcon
+                    .removeClass('icon-toggle-off')
+                    .addClass('icon-toggle-on');
+                badgeImgColor = '-mono';
+                changeImgURI();
+
+            } else {
+                badgeMonoCheckbox.removeClass('active');
+                badgeMonoIcon
+                    .removeClass('icon-toggle-on')
+                    .addClass('icon-toggle-off');
+                badgeImgColor = '';
+                changeImgURI();
+            }
+        }
+
+        badgeMonoCheckbox.click(function () {
+            checkedBadgeMono = !checkedBadgeMono;
+            toogleBadgeMono(checkedBadgeMono);
+        });
+
+        var selectorBadge = $('#selector-badge');
+        var badgePrimaryOption = $('#badge-primary');
+        var badgeNegativeOption = $('#badge-negative');
+        var badgeOptions = $('#badge-primary, #badge-negative');
+
+        function toogleBadgeOption( bgColor, thisActive ) {
+            selectorBadge.removeClass('bg-faded bg-gray-dark');
+            selectorBadge.addClass(bgColor);
+            badgeOptions.removeClass('active');
+            thisActive.addClass('active');
+        }
+
+        badgePrimaryOption.click(function () {
+            toogleBadgeOption('bg-faded', badgePrimaryOption);
+            badgeImgBgcolor = 'light-bg';
+            changeImgURI();
+        });
+
+        badgeNegativeOption.click(function () {
+            toogleBadgeOption('bg-gray-dark', badgeNegativeOption);
+            badgeImgBgcolor = 'dark-bg';
+            changeImgURI();
+        });
+    }
+});

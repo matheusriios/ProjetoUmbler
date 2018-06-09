@@ -1,0 +1,301 @@
+$(function () {
+
+    var prices = {};
+    var products = $('.product-price');
+    products.each(function (i, p) {
+        prices[$(p).data('name')] = p.value;
+    });
+
+    var rowPlan = $('#plans-pricing .plans');
+
+    // Efeito da tabela de pre�os
+    rowPlan.hover(
+        function () {
+            $(this).addClass('box-hover');
+        }, function () {
+            $(this).removeClass('box-hover');
+        }
+    );
+
+    var sonarEffect = $('.sonar-emitter');
+    sonarEffect.show();
+
+    /*
+    * Site Pro Slider
+    */
+    var sliderSitepro = document.getElementById('slider-sitepro');
+    var siteproPrice = $('#plan-sitepro .price');
+    var sliderSiteproAmount = $('#plan-sitepro .quantity');
+    var siteproPriceCurrent = 0;
+
+if(sliderSitepro){
+    createSliderHosting(sliderSitepro);
+
+    sliderSitepro.noUiSlider.on('slide', function () {
+            sonarEffect.hide();
+
+            siteproPriceCurrent = sliderSitepro.noUiSlider.get() * prices.sitepro; //* price
+            sliderSiteproAmount.text(sliderSitepro.noUiSlider.get());
+            siteproPrice.text(siteproPriceCurrent);
+
+            calcTotalPrice();
+        
+    });
+}
+
+    /*
+    * Cloud Sites Slider
+    */
+    var cloudPrice = $('#plan-cloudsites .price');
+    var cloudSitesAmount = $('#plan-cloudsites .quantity');
+    var cloudLinksSizes = $('#plan-cloudsites .sizes a');
+    var cloudSiteRAM = $('#plan-cloudsites .ram');
+    var cloudSiteProc = $('#plan-cloudsites .proc');
+    var cloudSiteHD = $('#plan-cloudsites .hd');
+    var cloudSiteMbps = $('#plan-cloudsites .mbps');
+    var cloudSizeNotSelected = $('#size-not-selected');
+    var cloudSizeSelected = $('#size-selected');
+    var cloudResourcesList = $('#resources-cloud li, #resources-cloud li a');
+    var cloudResourcesListIcons = $('#resources-cloud li .icon');
+    var cloudPriceCurrent = 0
+
+    cloudLinksSizes.click(function () {
+
+        cloudLinksSizes.removeClass('selected');
+        $(this).addClass('selected');
+
+        cloudPriceCurrent = $(this).data('price');
+        thisCloudVal = $(this).data('val');
+        thisCloudRAM = $(this).data('ram');
+        thisCloudProc = $(this).data('proc');
+        thisCloudHD = $(this).data('hd');
+        thisCloudMbps = $(this).data('mbps');
+
+        if (thisCloudVal == 0) {
+            cloudSizeNotSelected.fadeIn();
+            cloudSizeSelected.hide();
+            cloudResourcesList.addClass('text-marked text-muted');
+            cloudResourcesListIcons.removeClass('icon-check').addClass('icon-times')
+        } else {
+            cloudSizeNotSelected.hide();
+            cloudSizeSelected.fadeIn();
+            cloudResourcesList.removeClass('text-marked text-muted');
+            cloudResourcesListIcons.removeClass('icon-times').addClass('icon-check')
+        }
+
+        cloudPrice.text(cloudPriceCurrent);
+        cloudSitesAmount.text(thisCloudVal);
+        cloudSiteRAM.text(thisCloudRAM);
+        cloudSiteProc.text(thisCloudProc);
+        cloudSiteHD.text(thisCloudHD);
+        cloudSiteMbps.text(thisCloudMbps);
+
+        calcTotalPrice();
+    });
+
+    /*
+        * Email Basic Slider 2GB
+        */
+    var sliderEmailBasic1 = document.getElementById('slider-emailbasic-a');
+    var emailBasic1Price = $('#email-basic-a .price');
+    var sliderEmailBasic1Amount = $('#email-basic-a .quantity');
+    var emailBasic1PriceAccount = prices.emailexchangebasic;
+    var emailBasic1PriceCurrent = 0;
+
+if(sliderEmailBasic1) {
+    createSlider(sliderEmailBasic1);
+
+    sliderEmailBasic1.on('slide', function () {
+            emailBasic1PriceCurrent = sliderEmailBasic1.noUiSlider.get() * emailBasic1PriceAccount;
+            sliderEmailBasic1Amount.text(sliderEmailBasic1.noUiSlider.get());
+            emailBasic1Price.text(emailBasic1PriceCurrent);
+
+            calcTotalPrice();
+        
+    });
+}
+
+    /*
+        * Email Basic Slider 25GB
+        */
+    var sliderEmailBasic2 = document.getElementById('slider-emailbasic-b');
+    var emailBasic2Price = $('#email-basic-b .price');
+    var sliderEmailBasic2Amount = $('#email-basic-b .quantity');
+    var emailBasic2PriceAccount = prices.emailexchangestandard;
+    var emailBasic2PriceCurrent = 0;
+
+if(sliderEmailBasic2){
+    createSlider(sliderEmailBasic2);
+
+    sliderEmailBasic2.on('slide', function () {
+            emailBasic2PriceCurrent = sliderEmailBasic2.noUiSlider.get() * emailBasic2PriceAccount;
+            sliderEmailBasic2Amount.text(sliderEmailBasic2.noUiSlider.get());
+            emailBasic2Price.text(emailBasic2PriceCurrent);
+
+            calcTotalPrice();
+        
+    });
+}
+
+    /*
+        * Email Enterprise Slider 50GB
+        */
+    var sliderEmailEnterp = document.getElementById('slider-emailenterprise');
+    var emailEnterpPrice = $('#email-enterprise .price');
+    var emailEnterpAmount = $('#email-enterprise .quantity');
+    var emailEnterpPriceAccount = prices.emailexchangeenterprise;
+    var emailenterprisePriceCurrent = 0;
+
+if(sliderEmailEnterp) {
+    createSlider(sliderEmailEnterp);
+
+    sliderEmailEnterp.noUiSlider.on('slide', function () {
+            emailenterprisePriceCurrent = sliderEmailEnterp.noUiSlider.get() * emailEnterpPriceAccount;
+            emailEnterpAmount.text(sliderEmailEnterp.noUiSlider.get());
+            emailEnterpPrice.text(emailenterprisePriceCurrent);
+
+            calcTotalPrice();
+        }
+    );
+}
+
+
+    /*
+        * Database MySQL B Slider
+        */
+    var dbMySqlPlanBSlider = document.getElementById('db-mysql-b-slider');
+    var dbMySqlPlanBPrice = $('#db-mysql-b .price');
+    var dbMySqlPlanBAmount = $('#db-mysql-b .quantity');
+    var dbMySqlPlanBPriceAccount = prices.databasemysqlsmall || 10;
+    var dbMySqlPlanBPriceCur = 0;
+
+if(dbMySqlPlanBSlider){
+    createSliderHosting(dbMySqlPlanBSlider);
+
+    dbMySqlPlanBSlider.noUiSlider.on('slide', function () {
+            dbMySqlPlanBPriceCur = dbMySqlPlanBSlider.noUiSlider.get() * dbMySqlPlanBPriceAccount;
+            dbMySqlPlanBAmount.text(dbMySqlPlanBSlider.noUiSlider.get());
+            dbMySqlPlanBPrice.text(dbMySqlPlanBPriceCur);
+
+            calcTotalPrice();        
+    });
+}
+
+    /*
+        * Database MySQL C Slider
+        */
+    var dbMySqlPlanCSlider = document.getElementById('db-mysql-c-slider');
+    var dbMySqlPlanCPrice = $('#db-mysql-c .price');
+    var dbMySqlPlanCAmount = $('#db-mysql-c .quantity');
+    var dbMySqlPlanCPriceAccount = prices.databasemysqlmedium || 25;
+    var dbMySqlPlanCPriceCur = 0;
+
+if(dbMySqlPlanCSlider){
+    createSliderHosting(dbMySqlPlanCSlider);
+
+    dbMySqlPlanCSlider.noUiSlider.on('slide', function () {
+            dbMySqlPlanCPriceCur = dbMySqlPlanCSlider.noUiSlider.get() * dbMySqlPlanCPriceAccount;
+            dbMySqlPlanCAmount.text(dbMySqlPlanCSlider.noUiSlider.get());
+            dbMySqlPlanCPrice.text(dbMySqlPlanCPriceCur);
+
+            calcTotalPrice();
+        });
+}
+
+    /*
+        * Database SQL Server Slider
+        */
+    var dbSQLServerSlider = document.getElementById('db-sqlserver-slider');
+    var dbSQLServerPrice = $('#db-sqlserver .price');
+    var dbSQLServerAmount = $('#db-sqlserver .quantity');
+    var dbSQLServerPriceCur = 0;
+
+if(dbSQLServerSlider){
+    createSlider(dbSQLServerSlider);
+
+    dbSQLServerSlider.noUiSlider.on('slide', function () {
+            dbSQLServerPriceCur = dbSQLServerSlider.noUiSlider.get() * prices.databasesqlserver; //* price
+            dbSQLServerAmount.text(dbSQLServerSlider.noUiSlider.get());
+            dbSQLServerPrice.text(dbSQLServerPriceCur);
+
+            calcTotalPrice();
+        
+    });
+}
+
+    // Total simulado
+    var totalPricingNumber = $('#pricing-total .price');
+    var simuladoSitepro = $("#pricing-total .simulado-sitepro");
+    var simuladoCloudsites = $("#pricing-total .simulado-cloudsites");
+    var simuladoEmailBasic1 = $("#pricing-total .simulado-emailBasic1");
+    var simuladoEmailBasic2 = $("#pricing-total .simulado-emailBasic2");
+    var simuladoEmailEnterprise = $("#pricing-total .simulado-emailenterprise");
+    var simuladoDbMySQL = $("#pricing-total .simulado-db-mysql");
+    var simuladoDbSQLServer = $("#pricing-total .simulado-db-sqlserver");
+    var totalPricing = 0;
+
+
+    function calcTotalPrice() {
+
+        simuladoSitepro.text(siteproPriceCurrent);
+        simuladoCloudsites.text(cloudPriceCurrent);
+        simuladoEmailBasic1.text(emailBasic1PriceCurrent);
+        simuladoEmailBasic2.text(emailBasic2PriceCurrent);
+        simuladoEmailEnterprise.text(emailenterprisePriceCurrent);
+        simuladoDbMySQL.text(dbMySqlPlanBPriceCur + dbMySqlPlanCPriceCur);
+        simuladoDbSQLServer.text(dbSQLServerPriceCur);
+        //totalPricing = siteproPriceCurrent + cloudPriceCurrent +
+                        //emailBasic1PriceCurrent + emailBasic2PriceCurrent + emailenterprisePriceCurrent +
+                        //dbMySqlPlanBPriceCur + dbMySqlPlanCPriceCur + dbSQLServerPriceCur;
+        totalPricing = siteproPriceCurrent + cloudPriceCurrent + dbMySqlPlanBPriceCur + dbMySqlPlanCPriceCur + dbSQLServerPriceCur;
+        totalPricingNumber.text(totalPricing);
+    }
+
+    // Slider default
+    function createSlider(element) {
+    noUiSlider.create(element, {
+        start: 0,
+         step: 1,
+        connect: [true, false],
+        range: {
+            'min': 0,
+            'max': 100
+        },
+        format: wNumb({
+                decimals: 0
+            })
+    });
+
+    }
+
+    // Slider default hosting
+    function createSliderHosting(element) {
+        noUiSlider.create(element, {
+        start: 0,
+         step: 1,
+        connect: [true, false],
+        range: {
+            'min': 0,
+            'max': 10
+        },
+        format: wNumb({
+                decimals: 0
+            })
+    });
+
+    }
+
+    $('#stick-total').stickit({
+			top: 110,
+			extraHeight: 0,
+			className: 'my-stick'
+		});
+		
+		// events
+		window.dataLayer = window.dataLayer || [];
+		$('#cta-header-calculator').click(function () {
+			window.window.dataLayer.push({ 'event': 'click-event-calculator-header'})
+		})
+
+});
+

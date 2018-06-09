@@ -1,0 +1,8 @@
+(function() {
+var video = document.querySelector("video");
+    if (video)
+        video.play();
+
+});
+
+//var rellax = new Rellax('.rellax');

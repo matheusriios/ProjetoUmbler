@@ -1,0 +1,103 @@
+window.Url = {};
+window.Url.Assets = function (path) {
+    return '/assets/' + path;
+};
+
+$(function () { 
+    $('#title-googlemaps').css('display','inline-block');
+
+    // Do javascript for non-mobile
+    if ($('body').hasClass('is-desktop')) {
+        /*
+         * Google Maps
+         */      
+
+        function initialize() {
+
+            var locations = [
+                ['Gravata&iacute; - Rio Grande do Sul', 'Umbler Headquarter', -29.936300, -51.008146, 1],
+                ['Orlando - Flórida', 'Umbler Office', 28.4810971, -81.5088354, 1],
+                ['Datacenter AP-Northeast-1 (breve)', 'Asia Pacific - Tokyo', 35.689487, 139.691706, 0],
+                ['Datacenter AP-Southeast-1 (breve)', 'Asia Pacific - Singapore', 1.352083, 103.819836, 0],
+                ['Datacenter AP-Southeast-2 (breve)', 'Asia Pacific - Sydney', -33.867487, 151.206990, 0],
+                ['Datacenter EU-Central-1 (breve)', 'EU - Frankfurt', 50.110922, 8.682127, 0],
+                ['Datacenter EU-West-1 (breve)', 'EU - Ireland', 53.361372, -6.291738, 0],
+                ['Datacenters da Diveo', 'South America - S&atilde;o Paulo', -23.550520, -46.633309, 1],
+                ['Datacenter US-East-1 (breve)', 'US East - N. Virginia', 37.431573, -78.656894, 0],
+                ['Datacenter US-West-1 (breve)', 'US West - N. California', 36.778261, -119.417932, 0],
+                ['Datacenter US-West-2 (breve)', 'US West - Oregon', 43.804133, -120.554201, 0]
+            ];
+
+            // Marcador personalizado
+            var customIcons = [
+                Url.Assets("about/marker-googlemaps-pin.png"),
+                Url.Assets("about/marker-googlemaps-pin-on.png")
+            ];
+
+            var mapOptions = {
+                center: new google.maps.LatLng(17.000000, 15.000000),
+                zoom: 3,
+                scrollwheel: false,
+                draggable: false,
+                disableDefaultUI: true,
+                styles: [
+                    { featureType: "all", stylers: [{ "color": "#3b59b2" }] },
+                    { "elementType": "geometry", "featureType": "water", "stylers": [{ "color": "#557cf2" }] },
+                    { "elementType": "geometry", "featureType": "administrative", "stylers": [{ "visibility": "off" }] },
+                    { "elementType": "labels", "featureType": "road", "stylers": [{ "visibility": "off" }] },
+                    { "elementType": "labels", "featureType": "country", "stylers": [{ "visibility": "off" }] },
+                    { "elementType": "labels.text.stroke", "stylers": [{ "visibility": "off" }, { "color": "#557cf2" }, { "weight": 2 }] },
+                    { "elementType": "labels.text.fill", "stylers": [{ "color": "#FFFFFF" }] },
+                    { "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }
+                ],
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var myMap = new google.maps.Map(document.getElementById("maps-umbler"), mapOptions);
+            var infowindow = new google.maps.InfoWindow({});
+            var markers = new Array();
+
+            for (var i = 0; i < locations.length; i++) {
+
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][2], locations[i][3]),
+                    map: myMap,
+                    icon: customIcons[locations[i][4]],
+                    animation: google.maps.Animation.DROP
+                });
+
+                markers.push(marker);
+
+                google.maps.event.addListener(marker, 'mouseover', (function (marker, i) {
+                    return function () {
+
+                        var contentTitles = '<h5 class="h6 text-gray-dark m-0">' + locations[i][1] + '</h5>' +
+                                            '<p class="text-primary m-0 mb-2">' + locations[i][0] + '</p>';
+                        if (i == 0) {
+                            contentTitles +=
+                            // Gravataí
+                            '<a><div class="foto-us d mr-2 mb-2"></div></a>' +
+                            '<a><div class="foto-us b mb-2"></div></a><br>' +
+                            '<a><div class="foto-hq c mr-2"></div></a>' +
+                            '<a><div class="foto-hq d"></div></a>'
+                        }
+                        
+                        // Orlando
+                        if (i == 1) {
+                            contentTitles +=
+                            '<a><div class="foto-us mr-2"></div></a>' + 
+                            '<a><div class="foto-us c"></div></a>' 
+                            }                                
+                            infowindow.setContent(contentTitles);
+												
+                        infowindow.open(myMap, marker);
+                    }
+                })(marker, i));
+
+            };
+
+        } //END initialize()
+
+        initialize();
+    }
+});

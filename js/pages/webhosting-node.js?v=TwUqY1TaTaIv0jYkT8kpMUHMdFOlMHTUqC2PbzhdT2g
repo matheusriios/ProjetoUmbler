@@ -1,0 +1,376 @@
+
+function terminal () {
+  var terminal = $('.terminal')
+  var data = [
+    {
+      action: 'type',
+      strings: ['git add .'],
+      output: '&nbsp;',
+      postDelay: 1000
+    },
+    {
+      action: 'type',
+      strings: ['git commit -m "publish my app"'],
+      output: '&nbsp;',
+      postDelay: 1500
+    },
+    {
+      action: 'type',
+      strings: ['git push umbler master'],
+      output: ['<span class="text-gray-light">Counting objects: 18, done.<br>Delta compression using up to 8 threads.<br>Compressing objects: 100% (17/17), done.<br>Writing objects: 100% (18/18), 366.45 KiB | 0 bytes/s, done.<br>Total 18 (delta 0), reused 0 (delta 0)</span><br>'],
+      postDelay: 1000
+    }
+  ]
+
+  // build started
+  setTimeout(function () {
+		$('.terminal-build-started').css('display', 'block')
+		$('.terminal-wrapper .history').next().hide();
+		$('.terminal-wrapper .history').next().next().hide();
+		//$('.terminal-wrapper .history').parents().find('span').hide();;
+  }, 8000)
+
+  // build logs
+  setTimeout(function () {
+    $('.terminal-build-logs').css('display', 'block')
+    terminal.scrollTop(terminal[0].scrollHeight)
+  }, 9000)
+
+  // npm output
+  setTimeout(function () {
+    $('.terminal-remote-output').css('display', 'block')
+    terminal.scrollTop(terminal[0].scrollHeight)
+  }, 10000)
+
+  // build completed
+  setTimeout(function () {
+    $('.terminal-build-completed').css('display', 'block')
+    terminal.scrollTop(terminal[0].scrollHeight)
+  }, 11500)
+
+  setTimeout(function () {
+    $('.terminal-finish, .terminal-finish-parent').css('display', 'block')
+
+    $('.terminal-finish').typed({
+      strings: ['Isso foi bem maneiro, não é mesmo? o/'/*, "Quer ver novamente? [y] [n]" */],
+      typeSpeed: 20,
+      backDelay: 100,
+      loop: false,
+      loopCount: false,
+      preStringTyped: function () {
+        terminal.scrollTop(terminal[0].scrollHeight)
+        $('.typed-cursor').hide()
+      }
+    })
+  }, 13000)
+
+  function runScripts (data, pos) {
+    var prompt = $('.prompt')
+    var script = data[pos]
+
+    prompt.removeData()
+    $('.typed-cursor').text('')
+    prompt.typed({
+      strings: script.strings,
+      contentType: 'html',
+      typeSpeed: 30,
+      callback: function () {
+        var history = $('.history').html()
+
+        history = history ? [history] : []
+        history.push('<div><span class="terminal-path-green mr-1">umblerito@R2D2</span><span class="terminal-path-pink mr-1">MINGW64</span><span class="terminal-path-yellow mr-1">/d/my-project</span><span class="terminal-path-aqua mr-1">(master)</span></div>$ ' + prompt.text())
+
+        if (script.output) {
+          history.push(script.output)
+          prompt.html('')
+          $('.history').html(history.join('<br>'))
+        }
+        $('section.terminal').scrollTop($('section.terminal').height())
+        pos++
+
+        if (pos < data.length) {
+          setTimeout(function () {
+            runScripts(data, pos)
+          }, script.postDelay || 1500)
+        }
+
+        $('.typed-cursor').hide()
+      }
+    })
+  }
+  runScripts(data, 0)
+}
+
+function changeNodePrice () {
+  var oldValue = $('.price.count').html()
+  var newValue = nodePriceCurrent * instances
+
+  var usingDatabase = $('#using-database-checkbox').is(':checked')
+
+  if (usingDatabase) {
+    newValue += $('.choose-size-database:visible input[type=radio]:checked + label').data('price')
+  }
+
+  $('.count').each(function () {
+    $(this).prop('Counter', oldValue).animate({
+      Counter: newValue
+    }, 
+    {
+      duration: 10,
+      easing: 'swing',
+      step: function (now) {
+        $(this).text(Math.ceil(now))
+      }
+    })
+  })
+}
+
+var nodePriceCurrent = 0
+var instances = 1
+
+function pricing () {
+  var nodePrice = $('#node-pricing .price')
+  // var nodeSitesAmount = $('#node-pricing .quantity')
+  var nodeSizeContainer = $('#node-pricing .choose-size-container label')
+
+  var mongoSizeDatabase = $('#node-mongodb-content .choose-size-database label')
+  var mysqlSizeDatabase = $('#node-mysql-content .choose-size-database label')
+	var sqlserverSizeDatabase = $('#node-sqlserver-content .choose-size-database label')
+
+  // container
+	var nodeContainerHD = $('.node-size-container .hd')
+	var nodeContainerProc = $('.node-size-container .proc')
+  var nodeContainerRAM = $('.node-size-container .ram')
+	var nodeContainerTraffic = $('.node-size-container .traffic')
+
+  // database (mongo)
+  var mongoDatabaseRAM = $('.node-size-database-mongodb .ram')
+  var mongoDatabaseProc = $('.node-size-database-mongodb .proc')
+  var mongoDatabaseHD = $('.node-size-database-mongodb .hd')
+
+	// database (mysql)
+  var mysqlDatabaseHD = $('.node-size-database-mysql .hd')
+  var mysqlDatabaseCache = $('.node-size-database-mysql .cache')
+  var mysqlDatabaseConnections = $('.node-size-database-mysql .connections')
+
+  // database (sql server)
+  var sqlserverDatabaseHD = $('.node-size-database-sqlserver .hd')
+
+  nodePriceCurrent = nodeSizeContainer.data('price')
+  instances = 1
+
+  nodeSizeContainer.click(function () {
+    // nodeSizeContainer.removeClass('active');
+    // $(this).addClass('active');
+
+    nodePriceCurrent = $(this).data('price')
+    var thisnodeRAM = $(this).data('ram')
+    var thisnodeProc = $(this).data('proc')
+    var thisnodeHD = $(this).data('hd')
+    var thisnodeTraffic = $(this).data('traffic')
+
+    nodePrice.text(nodePriceCurrent * instances)
+
+    // container
+    nodeContainerRAM.text(thisnodeRAM)
+    nodeContainerProc.text(thisnodeProc)
+    nodeContainerHD.text(thisnodeHD)
+    nodeContainerTraffic.text(thisnodeTraffic)
+
+    changeNodePrice()
+  })
+
+  mongoSizeDatabase.click(function () {
+
+    var thismongoRAM = $(this).data('ram')
+    var thismongoProc = $(this).data('proc')
+    var thismongoHD = $(this).data('hd')
+
+    // database
+    mongoDatabaseRAM.text(thismongoRAM)
+    mongoDatabaseProc.text(thismongoProc)
+    mongoDatabaseHD.text(thismongoHD)
+
+    changeNodePrice()
+  })
+
+	mysqlSizeDatabase.click(function () {
+
+    var thismysqlserverHD = $(this).data('hd')
+    var thismysqlserverCache = $(this).data('cache')
+    var thismysqlserverConnections = $(this).data('connections')
+
+    // database
+		mysqlDatabaseHD.text(thismysqlserverHD)
+    mysqlDatabaseCache.text(thismysqlserverCache)
+    mysqlDatabaseConnections.text(thismysqlserverConnections)
+
+    changeNodePrice()
+  })
+
+
+  // 1. Scale
+  $('.price-controls .btn').click(function () {
+    var attrSize = $(this).attr('data-size')
+
+    $('.plans-container .price-container').removeClass('size-pp size-p size-m size-g').addClass('size-' + attrSize)
+  })
+
+  // 2. Escale
+  function formatPipsInstance (value, type) {
+    switch (true) {
+      case (value === 1):
+      case (value === 5):
+      case (value === 10):
+      case (value === 15):
+      case (value === 20):
+        return value
+      default:
+        return ''
+    }
+  }
+
+  var containerSlider = document.getElementById('slider-container')
+  var containerSliderValue = document.getElementById('slider-container-value')
+
+  noUiSlider.create(containerSlider, {
+    start: 1,
+    step: 1,
+    connect: [true, false],
+    range: {
+      'min': 1,
+      'max': 20
+    },
+    pips: {
+      mode: 'steps',
+      density: 3,
+      format: { to: formatPipsInstance }
+    },
+    format: {
+      from: function (value) {
+        return parseInt(value)
+      },
+      to: function (value) {
+        return parseInt(value)
+      }
+    }
+  })
+
+  containerSlider.noUiSlider.on('slide', function (values, handle) {
+    instances = values[handle]
+    nodePrice.text(nodePriceCurrent * instances)
+    changeNodePrice()
+
+    containerSliderValue.innerHTML = instances
+
+    /* if (instances > 10) {
+    	$('.price-container').addClass('size-small-container')
+	  }
+    else {
+	  	$('.price-container').removeClass('size-small-container')
+	  } */
+
+    var total = $('.price-container').find('.img-container-item').length
+
+    if (total < instances) {
+      for (var i = 0; i < (instances - total); i++) {
+        $('.price-container').append($('.price-container .img-container-item').eq(0).clone().addClass('d-block animated fadeInRight'))
+      }
+    } else if (total > instances) {
+      for (var i = 1; i <= (total - instances); i++) {
+        $('.price-container .img-container-item').eq(-i).removeClass('d-block animated fadeInRight').animateCss('fadeOutRight', function (e) {
+          $(this.currentTarget).remove()
+        })
+      }
+    }
+  })
+
+  // 3. Database
+  $(".radioBtnDatabase").change(function () {
+    changeNodePrice()
+  })
+
+  $('input[name="selectDatabase"]').click(function () {
+    var db = $(this).data('db')
+    $('.tab-pane').removeClass('active')
+    $('#node-' + db + '-content').tab('show')
+
+    var otherDbs = ['mysql', 'mongodb', 'sqlserver']
+
+    var index = otherDbs.indexOf(db)
+    if (index !== -1) {
+      otherDbs.splice(index, 1)
+    }
+
+		/* var usingMongo = $("#selectDatabaseMongo").is(":checked")
+		if (usingMongo) { */
+
+    if (!$('.node-size-database-' + db).is(':visible')) {
+      $('.node-size-database-' + db).stop(true, true).slideDown()
+      $('.plan-price').addClass('plans-with-database-' + db)
+    }
+
+    for (var i = 0; i < otherDbs.length; i++) {
+      $('.node-size-database-' + otherDbs[i]).hide('100')
+      $('.plan-price').removeClass('plans-with-database-' + otherDbs[i])
+    }
+
+		/* } else {
+				$('.plan-price').removeClass('plans-with-database')
+				$('.node-size-database').stop(true, true).slideUp('300')
+		} */
+
+    changeNodePrice()
+  })
+
+  // open database options
+  $("input[name='checkUsingDatabase']").change(function () {
+    if ($(this).is(':checked')) {
+      $('.step-content').stop(true, true).slideDown('300')
+      $('.step-title').removeClass('text-gray-light').addClass('text-gray')
+
+      var usingMongo = $('#selectDatabaseMongo').is(':checked')
+      if (usingMongo) {
+        $('.plan-price').addClass('plans-with-database-mongodb')
+        $('.node-size-database-mongodb').stop(true, true).slideDown('300')
+      }
+      $('.price-database').show()
+    } else {
+      $('.step-content, .node-size-database-mongodb').stop(true, true).slideUp('300')
+      $('.step-title').removeClass('text-gray').addClass('text-gray-light')
+
+      $('.plan-price').removeClass('plans-with-database')
+      $('.price-database').hide()
+    }
+    changeNodePrice()
+  })
+
+  $('#node-pricing .step-title').click(function () {
+    $('#using-database-checkbox').click()
+
+    $(this).toggleClass('open')
+
+    if ($(this).hasClass('open')) {
+      $('.step-content, .node-size-database-mongodb').slideDown('300')
+      $('.step-title').removeClass('text-gray-light').addClass('text-gray')
+    } else {
+      $('.step-content, .node-size-database-mongodb').slideUp('300')
+      $('.step-title').removeClass('text-gray').addClass('text-gray-light')
+    }
+
+    changeNodePrice()
+  })
+}
+
+$(function () {
+  pricing()
+  terminal()
+
+	$('.js-node-pricing-wrapper').stickit({ top: 40 })
+	
+	// events
+	window.dataLayer = window.dataLayer || [];
+	$('#cta-header-nodejs').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-nodejs-header'})
+	})
+})

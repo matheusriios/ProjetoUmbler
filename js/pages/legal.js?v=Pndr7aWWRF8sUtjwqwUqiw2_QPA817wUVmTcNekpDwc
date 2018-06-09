@@ -1,0 +1,19 @@
+$(function () {
+
+    // Do javascript for non-mobile  
+    if ($('body').hasClass('is-desktop')) {
+
+        $('#legal-menu').stickit({
+            top: 100,
+            className: 'my-stick'
+        });
+
+        /*$('body').waypoint(function (direction) {
+            if (direction === 'down') {
+                $('.umblerito-dungeonmaster').stop(true, false).velocity("fadeOut", { duration: 800 })
+            }
+        }, {
+            offset: '-200px'
+        });*/
+    }
+});

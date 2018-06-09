@@ -1,0 +1,1199 @@
+
+<!doctype html>
+<html class="no-js" lang="pt-br">
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospedagem Node.js com MongoDB e Deploy Facilitado | Umbler</title>
+    <meta name="description" content="Na Umbler você conta com hospedagem Node.js em estruturas docker com ambientes 100% isolados, garantindo maior estabilidade o melhor desempenho para sua aplicação. Acesse e teste grátis." />
+
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicons/apple-icon-72x72.png?v=20180608034705">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicons/apple-icon-144x144.png?v=20180608034705">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-icon-180x180.png?v=20180608034705">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicons/android-icon-192x192.png?v=20180608034705">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicons/favicon-96x96.png?v=20180608034705">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png?v=20180608034705">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png?v=20180608034705">
+    <link rel="manifest" href="/assets/favicons/manifest.json?v=20180608034705">
+    <meta name="msapplication-TileColor" content="#f7faff">
+    <meta name="msapplication-TileImage" content="/assets/favicons/ms-icon-310x310.png?v=20180608034705">
+    <meta name="theme-color" content="#557cf2">
+
+			<link rel="canonical" href="https://www.umbler.com/br/hospedagem-nodejs">
+    <meta property="og:title" content="Hospedagem Node.js com MongoDB e Deploy Facilitado | Umbler" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.umbler.com/br/hospedagem-nodejs" />
+    <meta property="og:site_name" content="Umbler" />
+    <meta property="og:image" content="/assets/webhosting-node/node-umblerito-package.png?v=20180608034705" />
+    <meta property="og:description" content="Na Umbler você conta com hospedagem Node.js em estruturas docker com ambientes 100% isolados, garantindo maior estabilidade o melhor desempenho para sua aplicação. Acesse e teste grátis." />
+    <meta name="twitter:title" content="Hospedagem Node.js com MongoDB e Deploy Facilitado | Umbler">
+    <meta name="twitter:description" content="Na Umbler você conta com hospedagem Node.js em estruturas docker com ambientes 100% isolados, garantindo maior estabilidade o melhor desempenho para sua aplicação. Acesse e teste grátis.">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@umbler" />
+    <meta name="twitter:domain" content="//umbler.com" />
+    <meta name="twitter:image" content="/assets/webhosting-node/node-umblerito-package.png?v=20180608034705" />
+    <meta name="google-site-verification" content="zBrdEhLfjN4UBUqv0GNci8ZRKHYz8KCAmBfAagc0mOM" />
+    <meta name="msvalidate.01" content="48DBE3EAC56FD4CF47B846B080915981" />
+
+    
+    <link rel="stylesheet" href="//static.umbler.com/umbootstrap/themes/umbler-site/dist/css/theme.min.css?v=3">
+    <link rel='stylesheet' href="/css/main.css?v=wMOjdmWzxY7IQzIw_dIuPTeZaRvhxTbJoPtwHSXrego">
+    
+</head>
+
+<body class="is-desktop page-webhosting-node">
+    <!-- Google Tag Manager -->
+    
+			<noscript>
+				<iframe src="//www.googletagmanager.com/ns.html?id=GTM-P6M9WT" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+			</noscript>
+			<script>
+				window.userEmailTagManager = "";
+				(function (w, d, s, l, i) {
+						w[l] = w[l] || []; w[l].push({
+								'gtm.start':
+								new Date().getTime(), event: 'gtm.js'
+						}); var f = d.getElementsByTagName(s)[0],
+								j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+										'//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+				})(window, document, 'script', 'dataLayer', 'GTM-P6M9WT');
+		</script>
+    
+    <!-- End Google Tag Manager -->
+
+    <div>
+			
+
+<nav id="menu" class="Fixed navbar navbar-default navbar-fixed-top navbar-toggleable-xl bg-solid-fixed" role="navigation">
+	<div class="navbar-header">
+		<a id="toogle-menu-mobile" href="#menu-mobile" class="d-block float-xs-right hidden-xl-up"><span class="icon icon-nav-drawer icon-4x"></span></a>
+		<a class="navbar-brand float-xs-left" href="/br/"><div class="logo-umbler-negativo"></div></a>
+	</div>
+	<div class="collapse navbar-collapse pos-relative float-xs-right" id="navbarSupportedContent">
+		<ul class="nav navbar-nav navbar-right m-0">
+			<li class="dropdown">
+				<a href="javascript:;" class="dropdown-toggle">Soluções</a>
+				<ul class="list-unstyled dropdown-menu pb-0">
+					<li class="dropdown-menu-item">
+						<a title="Hospedagem de sites" class="dropdown-link dropdown-link-site" href="/br/hospedagem-de-sites/">
+							<div class="media">
+								<svg class="img-svg align-middle img-3x mr-3">  
+									<use xlink:href="#img-app-site"></use>
+								</svg> 
+								<div class="media-body">
+									<span class="title">Hospedagem de Sites</span>
+									<p class="mb-0">Cloud Hosting para todos os tipos de sites e aplicações web.</p>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="dropdown-menu-item">
+						<a title="Registro de domínios" class="dropdown-link dropdown-link-dominio" href="/br/registro-de-dominio/">
+							<div class="media">
+								<svg class="img-svg align-middle img-3x mr-3">  
+									<use xlink:href="#img-app-domain"></use>
+								</svg>
+								<div class="media-body">
+									<span class="title">Domínios</span>
+									<p class="mb-0">Diversas opções de registro para tirar sua ideia do papel agora mesmo.</p>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="dropdown-menu-item">
+						<a title="E-mail Exchange" class="dropdown-link dropdown-link-exchange" href="/br/email-exchange/">
+							<div class="media">
+								<svg class="img-svg align-middle img-3x mr-3">  
+									<use xlink:href="#img-exchange"></use>
+								</svg>
+								<div class="media-body">
+									<span class="title">E-mail Exchange</span>
+									<p class="mb-0">Email corporativo robusto para todos os tamanhos de empresa.</p>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li>
+						<ul class="nav nav-minify">
+							<li class="dropdown-menu-item">
+								<a title="E-mail profissional" class="dropdown-link dropdown-link-email" href="/br/email-profissional/">
+									<svg class="img-svg align-middle img-2x mr-3 ml-1">  
+										<use xlink:href="#img-app-email"></use>
+									</svg>
+									<span class="title align-middle">E-mail profissional</span>
+								</a>
+							</li>
+							<li class="dropdown-menu-item">
+								<a title="Hospedagem PHP" class="dropdown-link dropdown-link-php" href="/br/hospedagem-php/">
+									<svg class="img-svg align-middle img-2x mr-3 ml-1">  
+										<use xlink:href="#php"></use>
+									</svg>
+									<span class="title align-middle">Hospedagem PHP
+										<span class="tag tag-pill tag-accent align-text-top ml-1 animated fadeInLeft duration-400">Novo!</span>
+									</span>
+								</a>
+							</li>
+							<li class="dropdown-menu-item">
+								<a title="Hospedagem Node.js" class="dropdown-link dropdown-link-node" href="/br/hospedagem-nodejs/">
+									<svg class="img-svg align-middle img-2x mr-3 ml-1">  
+										<use xlink:href="#node-js"></use>
+									</svg>
+									<span class="title align-middle">Hospedagem Node.js</span>
+								</a>
+							</li>
+							<li class="dropdown-menu-item">
+								<a title="Hospedagem Wordpress" class="dropdown-link dropdown-link-wordpress" href="/br/hospedagem-wordpress/">
+									<svg class="img-svg align-middle img-2x mr-3 ml-1">  
+										<use xlink:href="#wordpress"></use>
+									</svg>
+									<span class="title align-middle text-wordpress">Hospedagem Wordpress</span>
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a class="link-pricing" href="/br/precos/">Preços</a>
+			</li>
+			<li class="dropdown">
+				<a href="javascript:;" class="dropdown-toggle">Materiais</a>
+				<ul class="list-unstyled dropdown-menu">
+					<li class="dropdown-menu-item">
+						<a href="//help.umbler.com" class="dropdown-link dropdown-link-help" title="Central de ajuda da Umbler">
+							<div class="media">
+								<span class="icon icon-support icon-3x text-primary-light mr-3"></span>
+								<div class="media-body">
+									<span class="title">Central de Ajuda</span>
+									<p class="mb-0">Para tirar dúvidas, ampliar sua experiência e ter a melhor jornada.</p>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="dropdown-menu-item">
+						<a href="//blog.umbler.com/" class="dropdown-link-blog" title="Blog da Umbler">
+							<div class="media">
+								<span class="icon icon-chat-bubble-empty icon-3x text-primary-light mr-3"></span>
+								<div class="media-body">
+									<span class="title">Blog</span>
+									<p class="mb-0">Desenvolvimento, Marketing e Tecnologia: é disso que estamos falando!</p>
+								</div>
+							</div>
+						</a>
+					</li>
+					<li class="dropdown-menu-item">
+						<a href="//academy.umbler.com/" class="dropdown-link-academy" title="Academy da Umbler">
+							<div class="media">
+								<span class="icon icon-content-book icon-3x text-primary-light mr-3"></span>
+								<div class="media-body">
+									<span class="title">Academy</span>
+									<p class="mb-0">Materiais educativos com dicas de especialistas, tutoriais e relatórios.</p>
+								</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="https://app.umbler.com" target="_blank" rel="nofollow" class="login">Login</a>
+			</li>
+			<li>
+				<a id="cta-menu-register" href="https://app.umbler.com/account/register" rel="nofollow" class="btn btn-success btn-sm ml-lg-3 ml-0 register">Experimente grátis!</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+			
+<header class="section-default overflow-hidden">
+	<div class="container py-3 pt-sm-5">
+			<div class="row">
+				<div class="col-xl-8">
+					<h1 class="display-sm-3 my-3">Sua aplicação <span class="text-primary">Node.js</span> rodando em Docker sem esforço</h1>
+				</div>
+			</div>
+			<div class="row">
+					<div class="col-lg-6 col-xl-5">
+							<p class="h5 mb-3">Na Umbler, sua experiência Node.js vai além. Infraestrutura em containers, com seus ambientes isolados e seguros. MongoDB nativo, gerenciadores de pacotes npm e Yarn, monitoramento via painel e deploy facilitado. Publique sua aplicação com as mãos nas costas!</p>
+							<a id="cta-header-nodejs" href="https://app.umbler.com/account/register" rel="nofollow" class="btn btn-success btn-lg btn-xs-block px-3 mb-3 mb-sm-0">Comece agora!</a>
+							<a href="#node-pricing" class="btn btn-secondary btn-lg btn-xs-block px-4 pl-lg-5 ml-sm-2 pos-relative js-anchor-section">
+								<span class="myicon-calculator pos-absolute hidden-md-down"></span>
+								Preços
+							</a>
+					</div>
+					<div class="col-lg-6 col-xl-7 hidden-sm-down">
+						<div class="terminal-wrapper animated fadeIn duration-400">
+						<div class="terminal-window">
+							<div class="terminal">
+								<div class="history"></div>
+
+								<div><span class="terminal-path-green mr-1">umblerito@R2D2</span><span class="terminal-path-pink mr-1">MINGW64</span><span class="terminal-path-yellow mr-1">/d/my-project</span><span class="terminal-path-aqua mr-1">(master)</span></div><span class="command">$&nbsp;</span><span class="prompt"></span>
+								
+								<div>
+									<span class="terminal-build-started mt-1">remote: <span class="terminal-path-aqua">Umbler: Build started.</span>
+									<span class="terminal-path-green">ID #2a0b1c5f-e2de-4cb6-b241-0790e16f2243</span>
+								</div>
+
+								<div>
+									<span class='terminal-build-logs'>remote: <span class="terminal-path-aqua">Umbler: Build logs</span></span>
+								</div>
+
+								<div class="terminal-remote-output">
+									remote: NPM detected<br>
+									remote: Umbler0.1.0 /usr/src/app<br>
+									remote: -- express3.21.2<br>
+									remote:   +-- basic-auth1.0.4<br>
+									remote:   +-- commander2.6.0<br>
+									remote:   +-- connect2.30.2<br>
+									remote:   | +-- basic-auth-connect1.0.0<br>
+									remote:   | +-- body-parser1.13.3<br>
+									remote:   | | +-- iconv-lite0.4.11<br>
+									remote:   | | -- raw-body2.1.7
+									remote:   | |   +-- bytes2.4.0<br>
+									remote:   | |   -- iconv-lite0.4.1<br>
+									remote:   | +-- bytes2.1.0<br>
+									remote:   | +-- compression1.5.2<br>
+									remote:   | | +-- accepts1.2.13<br>
+									remote:   | | | -- negotiator0.5.3<br>
+									remote:   | | -- compressible2.0.10<br>
+									remote:   | |   -- mime-db1.27.0<br>
+									remote:   | +-- connect-timeout1.6.2<br>
+									remote:   | +-- cookie-parser1.3.5<br>
+									remote:   | +-- csurf1.8.3<br>
+									remote:   | | -- csrf3.0.6<br>
+									remote:   | |   +-- rndm1.2.0<br>
+									remote:   | |   +-- tsscmp1.0.5<br>
+									remote:   | |   -- uid-safe2.1.4<br>
+									remote:   | |     -- random-bytes1.0.0<br>
+									remote:   | +-- errorhandler1.4.3<br>
+									remote:   | | +-- accepts1.3.3<br>
+									remote:   | | | -- negotiator0.6.1<br>
+									remote:   | | -- escape-html1.0.3<br>
+									remote:   | +-- express-session1.11.3<br>
+									remote:   | | +-- crc3.3.0<br>
+									remote:   | | -- uid-safe2.0.0<br>
+									remote:   | |   -- base64-url1.2.1<br>
+									remote:   | +-- finalhandler0.4.0<br>
+									remote:   | | -- unpipe1.0.0<br>
+									remote:   | +-- http-errors1.3.1<br>
+									remote:   | | +-- inherits2.0.3<br>
+									remote:   | | -- statuses1.3.1<br>
+									remote: npm WARN Umbler0.1.0 No repository field.<br>
+									remote: npm WARN Umbler0.1.0 No license field.<br>
+									remote: npm info ok<br>
+									remote: Build OK<br>
+								</div>
+
+								<div class="terminal-build-completed">
+									remote: <span class="terminal-path-green">Umbler: Build completed successfully!</span> <span class="terminal-path-aqua">Your application will be updated and published soon.</span><br>
+									remote: <span class="terminal-path-aqua">Umbler: Temp address: http://myappnode-com.umbler.net</span>
+								</div>
+
+								<div>
+									<span class="terminal-finish-parent my-2">
+										<span class="terminal-finish text-accent font-bold"></span>
+									</span>
+								</div>
+
+							</div>
+						</div>
+					</div>
+			</div>
+	</div>
+</header>
+
+<section id="node-features" class="pos-relative">
+	<div class="container pb-5 pt-2">
+		<div class="row mb-5">
+			<div class="col-lg-10 offset-lg-1 text-xs-center">
+				<span class="sprite-node img-node-mongo hidden-sm-down mb-2"></span>
+				<h2 class="h1 display-sm-4">Só mais uma hospedagem Node.js<br class="hidden-lg-down" /> (só que não!)</h2>
+				<p class="h5">Faça seu cadastro, informe seu domínio e selecione a plataforma que deseja utilizar. Ativação e liberação concluídas em menos de dois minutos.</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-7 col-xl-6 mb-3 mb-lg-0 hidden-xs-down">
+				<figure>
+					<div class="video-wrapper">
+						<div class="video-container">
+							<video class="video" preload="auto" autoplay="" loop="" muted="" poster="/assets/webhosting-node/nodejs-app-firstframe.jpg?v=20180608034705">
+								<source src="/assets/webhosting-node/nodejs-app.mp4?v=20180608034705" type="video/mp4">
+								<source src="/assets/webhosting-node/nodejs-app.webm?v=20180608034705" type="video/webm">
+							</video>
+						</div>
+					</div>
+				</figure>
+			</div>
+
+			<div class="col-lg-5 col-xl-6">
+
+				<ul class="list-unstyled list-node-features">
+					<li class="pl-lg-5">
+						<svg class="img-node-features img-3x mb-2"><use xlink:href="/assets/webhosting-node/sprite-node-icons.svg?v=20180608034705#node-terminal" /></svg>
+						<h3 class="h5">Instale o Node.js na versão que quiser</h3>
+						<p>Você é livre para escolher qual release do Node.js quer instalado em seu ambiente. Compatibilidade? Fique tranquilo, isso não será problema.
+							<span class="tag tag-pill bg-primary-lighter tag-default text-primary">v.4</span> 
+							<span class="tag tag-pill bg-primary-lighter tag-default text-primary">v.6</span> 
+							<span class="tag tag-pill bg-primary-lighter tag-default text-primary">v.8</span>
+						</p>
+						
+					</li>
+					<li class="pl-lg-5">
+						<svg class="img-node-features img-3x mb-2"><use xlink:href="/assets/webhosting-node/sprite-node-icons.svg?v=20180608034705#node-mongodb" /></svg>
+						<h3 class="h5">Utilize o banco de dados que sua aplicação precisa</h3>
+						<p>Ative o MongoDB em um container exclusivo ou MySQL e SQL Server na infraestrutura padrão da Umbler.</p>
+						<ul class="list-unstyled list-inline list-mr-1 mt-3">
+							<li class="list-inline-item">
+								<svg class="img-svg img-3x">
+									<use xlink:href="#mongodb"></use>
+								</svg>
+							</li>
+							<li class="list-inline-item">
+								<svg class="img-svg img-3x">
+									<use xlink:href="#mysql"></use>
+								</svg>
+							</li>
+							<li class="list-inline-item">
+								<svg class="img-svg img-3x">
+									<use xlink:href="#sql-server"></use>
+								</svg>
+							</li>
+							<li class="list-inline-item cursor-help" data-toggle="tooltip" data-placement="top" title="Em breve">
+								<svg class="img-svg img-3x img-muted">
+									<use xlink:href="#redis"></use>
+								</svg>
+							</li>
+							<li class="list-inline-item cursor-help" data-toggle="tooltip" data-placement="top" title="Em breve">
+								<svg class="img-svg img-3x img-muted">
+									<use xlink:href="#postgre-sql"></use>
+								</svg>
+							</li>
+						</ul>
+					</li>
+					<li class="pl-lg-5">
+						<svg class="img-node-features img-3x mb-2"><use xlink:href="/assets/webhosting-node/sprite-node-icons.svg?v=20180608034705#node-manage" /></svg>
+						<h3 class="h5">Monitore e gerencie seus ambientes</h3>
+						<p>Acompanhe o desempenho das suas aplicações pelos gráficos de consumo, Logs de Deploy e sistema de alertas.</p>
+					</li>
+					<li class="pl-lg-5">
+						<svg class="img-node-features img-3x mb-2"><use xlink:href="/assets/webhosting-node/sprite-node-icons.svg?v=20180608034705#node-variables" /></svg>
+						<h3 class="h5">Defina Variáveis de Ambiente</h3>
+						<p>Incremente a segurança da sua aplicação guardando variáveis diretamente em seu container.</p>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+		<div class="row mt-lg-5">
+			<div class="col-lg-7 mb-4 mb-lg-0">
+			<img src="/assets/webhosting-node/node-umblerito-package.png?v=20180608034705" class="node-umblerito-package" width="780" alt="Controle de Pacotes npm e Yarn" />
+			</div>
+			<div class="col-lg-5">
+				<h3 class="h2">Utilize seu gerenciador de pacotes favorito</h3>
+				<p class="mb-2"><strong class="text-accent">npm ou Yarn?</strong> Tanto faz! Baixe e instale os módulos e frameworks de sua aplicação Node.js via Yarn ou npm em segundos. Basta enviar o arquivo package.json que a Umbler instala tudo de forma automática. Em segundos!</p>
+				<!--<img src="/assets/webhosting-node/package-logos.svg?v=20180608034705" />-->
+				<ul class="list-unstyled list-inline list-mr-1 list-mb-1 mt-3">
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Webpack">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#webpack" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="React">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#react" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Bower">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#bower" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Grunt">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#grunt" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Gulp">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#gulp" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Socket">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#socket" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Express">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#express" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Yeoman">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#yeoman" /></svg>
+					</li>
+					<li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Browserify">
+						<svg class="img-svg img-2x"><use xlink:href="/assets/webhosting-node/sprite-node-frameworks.svg?v=20180608034705#browserify" /></svg>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<section id="node-deploy">
+	<div class="container pt-5">
+		<div class="row">
+			<div class="col-lg-8 col-xl-7">
+				<h2 class="display-4">Publique suas aplicações com apenas um push</h2>
+				<p class="h5">Time is money. Com processo de deploy simplificado da Umbler, você ganha tempo e agilidade em suas aplicações. Uma vez criado seu ambiente Node, basta acessar sua GIT URL exclusiva e enviar seus pacotes em segundos.</p>
+
+				<div class="col-lg-10 p-0">
+					<ul class="list-unstyled list-node-features mt-4">
+					<li class="pl-lg-5">
+						<svg class="img-node-features img-4x mb-2"><use xlink:href="/assets/webhosting-node/sprite-node-icons.svg?v=20180608034705#node-versions" /></svg>
+						<div class="pl-lg-3">
+							<h4 class="h5">Controle de versão</h4>
+							<p>Tenha domínio total sobre as versões das suas aplicações com o GIT Umbler.</p>
+						</div>
+					</li>
+					<li class="pl-lg-5">
+						<svg class="img-node-features img-4x mb-2"><use xlink:href="/assets/webhosting-node/sprite-node-icons.svg?v=20180608034705#node-share" /></svg>
+						<div class="pl-lg-3">
+							<h4 class="h5">Compartilhamento</h4>
+							<p>Gerencie seus projetos colaborativos compartilhando acesso ao código de sua aplicação, sem troca de senhas.</p>
+						</div>
+					</li>
+				</div>
+
+			</div>
+			<div class="col-lg-4 col-xl-5 hidden-md-down">
+				<figure class="figure-node-deploy mt-5 mt-xl-0">
+					<span class="sprite-node img-git-code animated fadeInUp duration-700 hidden-lg-down"></span>
+					<img src="/assets/webhosting-node/node-deploy.png?v=20180608034705" class="animated fadeIn duration" width="500" alt="Deploy de aplicações Node.js facilidado" />
+				</figure>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="node-testimonials">
+	<div class="container pt-5 pb-5 pb-xl-0">
+		<div class="row mb-4 mb-lg-3">
+			<div class="col-lg-8">
+				<h2 class="h1 display-sm-4">A Hospedagem Node.js da Umbler foi criada com a comunidade</h2>
+				<p class="col-lg-9 p-0 h5 mb-lg-5">Com a ajuda de mais de 50 desenvolvedores, a Umbler tem melhorado e adaptado seus ambientes Node.js para que entreguem o melhor que a tecnologia tem a oferecer. Veja o que nossos brothers têm a dizer.</p>
+			</div>
+		</div>
+		<div class="row testimonial-wrapper">
+				<div class="col-lg-6">
+					<blockquote class="card card-block testimonial-item animated duration-400 fadeInDown">
+						<p class="quote h6 mb-3">"Participar como Beta Tester foi excepcional. A interação com o time da Umbler foi completa, sempre dispostos a receber os feedbacks. Hoje vejo a hospedagem Node.js da Umbler como um produto competitivo e aderente a projetos com os mais diversos níveis de complexibilidade e porte."</p>
+						<span class="author flex-xs flex-xs-middle">
+							<img src="/assets/webhosting-node/arthur-oliveira.png?v=20180608034705" class="rounded-circle img-2x mr-2 hidden-xs-down" alt="Beta Tester Node.js Arthur de Oliveira">
+							<div>
+								<span class="name font-bold text-primary">Arthur Oliveira de Souza</span>
+								<span class="d-block">Analista de Sistemas no Grupo Dadalto</span>
+							</div>
+						</span>
+					</blockquote>
+				</div>
+				<div class="col-lg-6">	
+					<blockquote class="card card-block testimonial-item testimonial-item-push animated duration-400 fadeInLeft">
+							<p class="quote h6 mb-3">"Ser um beta tester de Node.js na Umbler foi ótimo! Os membros da equipe foram superatenciosos e educados. Agradeço muito pela oportunidade de participar desse time!"</p>
+							<span class="author flex-xs flex-xs-middle">
+								<img src="/assets/webhosting-node/breno-henrique.png?v=20180608034705" class="rounded-circle img-2x mr-2 hidden-xs-down" alt="Beta Tester Node.js Breno Henrique">
+								<div>
+									<span class="name d-block font-bold text-primary">Breno Henrique</span>
+									<span class="">Desenvolvedor Fullstack na Equals</span>
+								</div>
+							</span>
+						</blockquote>
+
+						<div class="col-lg-10 p-0">
+							<blockquote class="card card-block testimonial-item testimonial-item-push animated duration-400 fadeInLeft">
+								<p class="quote h6 mb-3">"Dos testes básicos aos complexos, subi minhas aplicações Node.js na Umbler de forma muito fácil e rápida. Minha experiência como beta tester foi excelente! Não penso em sair deste hosting. Vou migrar tudo para a Umbler!"</p>
+								<span class="author flex-xs flex-xs-middle">
+									<img src="/assets/webhosting-node/michel-silva.png?v=20180608034705" class="rounded-circle img-2x mr-2 hidden-xs-down" alt="Beta Testes Node.js Michel Silva">
+									<div>
+										<span class="name d-block font-bold text-primary">Michel Silva</span>
+										<span class="">Líder técnico na Huia</span>
+									</div>
+								</span>
+							</blockquote>
+						</div>
+				</div>
+		</div>
+	</div>
+</section>
+
+<section id="node-pricing" class="bg-faded">
+	<div class="container pb-5">
+
+		<div class="row">
+			<div class="col-lg-10">
+				<h2 class="h1 display-sm-4">Sua aplicação em ambientes isolados, flexíveis às suas necessidades</h2>
+				<p class="h5">Por exigir menos memória e processamento do servidor, e ser assíncrono, o Node.js possibilita o tratamento de requisições de forma muito mais rápida. Mesmo assim, se você precisar expandir seu ambiente, pode escalar seus containers em segundos, vertical e horizontalmente.</p>
+			</div>
+		</div>
+		
+		<div id="node-pricing-slider" class="row pt-5">
+
+			<div class="col-lg-6">
+				<div class="card w-100">
+				
+					<div class="card-block pb-0">
+
+						<h3 class="mb-4"><b class="text-accent">Simule o tamanho</b> de seus containers e saiba quanto investir</h3>
+
+						<h5 class="plan-price m-0 bg-gray-lightest hidden-lg-up text-xs-center mb-4 rounded p-2">
+							<span class="currency">R$</span>
+							<span class="price count">6</span>
+						</h5>
+
+						<!-- container: size -->
+						<h4 class="h6 mb-2">1. Escolha o tamanho</h4>
+						<div class="btn-group price-controls mb-3 choose-size-container" data-toggle="buttons">
+							<label class="btn btn-primary active" data-size="pp" data-price="6" data-proc="0,5" data-ram="256 MB" data-hd="5" data-traffic="256">
+								<input type="radio" name="options" id="size-pp" autocomplete="off" checked> PP
+							</label>
+							<label class="btn btn-primary" data-size="p" data-price="12" data-proc="1" data-ram="512 MB" data-hd="10" data-traffic="512">
+								<input type="radio" name="options" id="size-p" autocomplete="off"> P
+							</label>
+							<label class="btn btn-primary" data-size="m" data-price="24" data-proc="1" data-ram="1 GB" data-hd="20" data-traffic="1024">
+								<input type="radio" name="options" id="size-m" autocomplete="off"> M
+							</label>
+							<label class="btn btn-primary" data-size="g" data-price="48" data-proc="2" data-ram="2 GB" data-hd="40" data-traffic="2048">
+								<input type="radio" name="options" id="size-g" autocomplete="off"> G
+							</label>
+						</div>
+						<p class="text-gray-light hidden-sm-down">Escolha o tamanho de container que melhor atende sua demanda.</p>
+
+						<!-- container: replique -->
+						<div class="mt-2 mt-lg-4">
+							<div class="flex-xs flex-xs-middle flex-xs-between mb-2">
+								<h4 class="h6 m-0">2. Replique seus containers</h4>
+								<span class="text-gray-light" data-toggle="tooltip" data-placement="top" title="Cada instância  da sua aplicação é uma cópia fiel da principal. Você não precisa replicar arquivos e pacotes, tudo ocorre de forma instantânea e transparente."><span id="slider-container-value">1</span> instância(s)
+								<span class="icon icon-question-mark align-middle ml-1 hidden-md-down"></span>
+								</span>
+							</div>
+							<div id="slider-container" class="slider-bg-primary mb-4 mx-1"></div>
+							<div id="pips-positions-stepped"></div>
+
+							<p class="text-gray-light hidden-sm-down my-3 pt-1">Após criar seu container, você pode replicá-lo e alterar seu tamanho com apenas alguns cliques.</p>
+
+							<div class="alert alert-info mt-5 m-md-0" role="alert">
+								Infraestrutura em containers disponível atualmente apenas para Hospedagem Node.js e banco MongoDB.
+							</div>
+						</div>
+
+					</div>
+
+					<div class="step3 px-4 p-3 p-md-4">
+
+						<div class="divider flex-xs flex-xs-middle m-0">
+							<a href="javascript:;" class="divider-content bg-white pr-3 font-bold h6 text-gray-light step-title">3. Escolha o banco <span class="hidden-sm-down">de dados</span></a>
+							<span class="divider-content bg-white pl-3 ml-auto mb-1">
+								<input id="using-database-checkbox" class="form-check-input" type="checkbox" name="checkUsingDatabase" value="" autocomplete="off">
+								<label class="form-check-label" for="using-database-checkbox">
+									Incluir
+								</label>									
+							</span>
+						</div>
+
+						<div class="step-content" style="display: none;">
+							<div class="pt-2">
+
+								<div class="flex-xs px-1">
+								<!-- database: select -->
+								<div class="form-check-inline check-btn-img">
+									<input id="selectDatabaseMongo" class="form-check-input" type="radio" name="selectDatabase" value="" data-db="mongodb" checked>
+									<label class="form-check-label" for="selectDatabaseMongo">
+										<svg class="img-svg img-4x">
+											<use xlink:href="#mongodb")"></use>
+										</svg>  
+									</label>
+								</div> 
+								<div class="form-check-inline check-btn-img">
+									<input id="id2" class="form-check-input" type="radio" name="selectDatabase" value="" data-db="mysql" >
+									<label class="form-check-label" for="id2">
+										<svg class="img-svg img-4x">
+											<use xlink:href="#mysql")"></use>
+										</svg>  
+									</label>
+								</div> 
+								<div class="form-check-inline check-btn-img">
+									<input id="id3" class="form-check-input" type="radio" name="selectDatabase" value="" data-db="sqlserver" >
+									<label class="form-check-label" for="id3">
+										<svg class="img-svg img-4x">
+											<use xlink:href="#sql-server")"></use>
+										</svg>  
+									</label>
+								</div>
+								</div>
+
+								<div class="tab-content pt-2">
+									<div id="node-mongodb-content" class="tab-pane active">
+										<div class="choose-size-database">
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline1" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemongodb" value="">
+												<label class="form-check-label" for="radioBtnDatabaseline1" data-price="6" data-proc="0,5" data-ram="256 MB" data-hd="5">
+													R$ 6 
+												</label>
+											</div>
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline2" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemongodb" checked>
+												<label class="form-check-label" for="radioBtnDatabaseline2" data-price="12" data-proc="1" data-ram="512 MB" data-hd="10">
+													R$ 12 
+												</label>
+											</div>
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline3" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemongodb" value="">
+												<label class="form-check-label" for="radioBtnDatabaseline3" data-price="24" data-proc="1" data-ram="1 GB" data-hd="20">
+													R$ 24
+												</label>
+											</div>
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline4" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemongodb" value="">
+												<label class="form-check-label" for="radioBtnDatabaseline4" data-price="48" data-proc="2" data-ram="2GB" data-hd="40">
+													R$ 48
+												</label>
+											</div>
+										</div>
+									</div>
+									<div id="node-mysql-content" class="tab-pane">
+										<div class="choose-size-database">
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline5" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemysql" value="">
+												<label class="form-check-label" for="radioBtnDatabaseline5" data-price="0" data-hd="1" data-connections="25" data-capacity-cpu="256 MB" data-capacity-io="1" data-cache="Não tem">
+													Grátis
+												</label>
+											</div>
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline6" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemysql" checked>
+												<label class="form-check-label" for="radioBtnDatabaseline6" data-price="10" data-connections="50" data-ram="512 MB" data-hd="1">
+													R$ 10
+												</label>
+											</div>
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline7" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasemysql" value="">
+												<label class="form-check-label" for="radioBtnDatabaseline7" data-price="25" data-connections="50" data-ram="1 GB" data-hd="5">
+													R$ 25
+												</label>
+											</div>
+										</div>
+									</div>
+									<div id="node-sqlserver-content" class="tab-pane">
+										<div class="choose-size-database">
+											<div class="form-check-inline d-block d-sm-inline-block mb-1 check-btn-outline check-btn-outline-sm mr-1">
+												<input id="radioBtnDatabaseline8" class="form-check-input radioBtnDatabase" type="radio" name="radioBtnDatabasesqlserver" value="" checked>
+												<label class="form-check-label" for="radioBtnDatabaseline8" data-price="15">
+													R$ 15
+												</label>
+											</div>
+										</div>
+										<!--<div class="alert alert-info" role="alert">
+											Preço fixo de <span class="font-bold">R$ 15/mês</span>
+										</div>-->
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>	
+			</div>
+
+			<div class="col-lg-6 text-xs-center js-node-pricing-wrapper hidden-md-down">
+			
+				<div class="p-4">
+
+					<div class="text-xs-center">
+						<div class="plan-price m-0 flex-xs flex-xs-center">
+							<div class="pos-relative text-gray-dark">
+								<span class="currency">R$</span>
+								<span class="price count">6</span>
+								<span class="plan-database">
+									<svg class="img-svg img-3x animated fadeInLeft hidden-md-down" id="svg-mongodb">
+										<use xlink:href="#mongodb")"></use>
+									</svg>
+									<svg class="img-svg img-3x animated fadeInLeft hidden-md-down" id="svg-mysql">
+										<use xlink:href="#mysql")"></use>
+									</svg>
+									<svg class="img-svg img-3x animated fadeInLeft hidden-md-down" id="svg-sqlserver">
+										<use xlink:href="#sql-server")"></use>
+									</svg>
+								</span>
+							</div>
+						</div>
+						<p class="subheading text-gray">por aplicação/mês</p>
+					</div>
+
+					<div class="plans-container-wrapper p-4">
+						<div class="plans-container flex-xs flex-xs-center flex-xs-middle mb-4">
+							<div class="price-container flex-xs flex-xs-center flex-xs-stretch">
+								<div class="img-container-item animated fadeInRight duration-200">
+									<img src="/assets/webhosting-node/container.svg?v=20180608034705" alt="Container Node.js da Umbler" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="node-size-container">
+						<div class="divider divider-left mb-2"><span class="subheading divider-content bg-gray-lightest pr-2">aplicação</span></div>
+						<div class="row mb-2 text-lg-left">
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-harddisk text-primary mr-1"></i>Espaço: <b><span class="hd">5</span> GB</b>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-computer-chip text-primary mr-1"></i>CPU: <b><span class="proc">0,5</span> Core</b>
+								</div>
+							</div>
+						</div>
+						<div class="row mb-2 text-lg-left">
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-ram text-primary mr-1"></i>RAM: <b><span class="ram">256 MB</span></b>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-network-global text-primary mr-1"></i>Tráfego: <b><span class="traffic">256</span> GB</b>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="node-size-database-mongodb mt-3 animated fadeInUp text-lg-left" style="display: none;">	
+						<div class="divider divider-left mb-2"><span class="subheading divider-content bg-gray-lightest pr-2">Banco de dados (MongoDB)</span></div>
+						<div class="row mb-2">
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-harddisk text-primary mr-1"></i>Espaço: <b><span class="hd">10</span> GB</b>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-computer-chip text-primary mr-1"></i>CPU: <b><span class="proc">1</span> Core</b>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-ram text-primary mr-1"></i>RAM: <b><span class="ram">512 MB</span></b>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="node-size-database-mysql mt-3 animated fadeInUp text-lg-left" style="display: none;">	
+						<div class="divider divider-left mb-2"><span class="subheading divider-content bg-gray-lightest pr-2">Banco de dados (MySQL)</span></div>
+						<div class="row mb-2">
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-harddisk text-primary mr-1"></i>Espaço: <b><span class="hd">1</span> GB</b>
+								</div>
+							</div>
+							<div class="col-xs-6">
+								<div class="bg-gray-lighter p-1 rounded">
+									<i class="icon icon-flash text-primary mr-1"></i>Cache: <b><span class="cache">Sim</span></b> 
+								</div>
+							</div>
+						</div>
+
+						<div class="text-xs-left">
+							<div class="bg-gray-lighter p-1 rounded">
+								<i class="icon icon-network-global text-primary mr-1"></i>Conexões simultâneas: <b><span class="connections">50</span></b>
+							</div>
+						</div>
+						<!--<span class="text-muted">* Recomendado para lojas virtuais pequenas</span>-->
+
+					</div>
+
+					<div class="node-size-database-sqlserver animated fadeInUp text-lg-left" style="display: none;">	
+						<div class="divider divider-left mb-2"><span class="subheading divider-content bg-gray-lightest pr-2">Banco de dados (SqlServer)</span></div>
+						<div class="bg-gray-lighter p-1 rounded">
+							<i class="icon icon-harddisk text-primary mr-1"></i>Espaço: <b><span class="hd">1</span> GB</b>
+						</div>
+					</div>
+
+				
+				</div>
+			
+			</div>
+			
+		</div>
+
+		<div class="col-lg-8 offset-lg-2 py-3 py-lg-5 text-xs-center">
+			<svg class="img-svg img-3x mb-1">
+				<use xlink:href="#img-umblercoin-gold"></use>
+			</svg>
+			<h3 class="mb-4">
+				Crie sua conta e <strong class="text-success">ganhe até R$ 100 em créditos</strong> para sites e e-mails
+			</h3>
+			<a href="https://app.umbler.com/account/register" rel="nofollow" class="btn btn-success btn-lg">Experimente agora!</a>
+			<!--<div class="input-group mt-4">
+				<input type="text" class="form-control form-control-lg" placeholder="Seu email...">
+				<span class="input-group-btn">
+					<button class="btn btn-success btn-lg" type="button">Comece agora</button>
+				</span>
+			</div>-->
+			<!--<span class="d-block text-primary-light text-xs-left mt-1">Fique tranquilo, não é necessário cartão de crédito</small>-->
+		</div>
+		
+	</div>
+</section>
+
+<section id="node-questions" class="bg-white">
+	<div class="container py-5">
+		<div class="row">
+			<div class="col-md-3 text-xs-center text-md-right">
+				<svg class="img-svg img-5x mr-md-4 mt-md-3">
+						<use xlink:href="#img-app-help"></use>
+				</svg>
+			</div>
+			<div class="col-md-9 text-xs-center text-md-left">
+				<h2 class="my-3 my-lg-0 display-lg-4">Ainda tem dúvidas sobre a hospedagem Node.js da Umbler?</h2>
+				<p class="h5 mb-4 mt-2">Confira abaixo algumas das principais perguntas sobre a Hospedagem Node.js da Umbler</p>
+
+				<div id="accordion-default" class="collapser text-xs-left" role="tablist" aria-multiselectable="true">
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingOne">
+							<a data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault1" aria-expanded="true" aria-controls="collapseDefault1">
+								<span class="collapser-title">Como fazer login no GIT Local para Deploy?</span>
+							</a>
+						</div>
+						<div id="collapseDefault1" class="collapse in" role="tabpanel" aria-labelledby="headingBasic1">
+							<div class="collapser-body">
+								<p>Basta utilizar os mesmos dados de acesso à sua conta Umbler.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingTwo">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault2" aria-expanded="false" aria-controls="collapseDefault2">
+								<span class="collapser-title">Como visualizar os logs da minha aplicação?</span>
+							</a>
+						</div>
+						<div id="collapseDefault2" class="collapse" role="tabpanel" aria-labelledby="headingBasic2">
+							<div class="collapser-body">
+								<p>Você pode acompanhar os logs diretamente no Painel, basta ativá-los. Depois disso, o sistema gerará logs para as próximas 24 horas.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingTwo">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault3" aria-expanded="false" aria-controls="collapseDefault3">
+								<span class="collapser-title">É possível utilizar tanto a plataforma do Node.js quanto a do PHP no mesmo servidor?</span>
+							</a>
+						</div>
+						<div id="collapseDefault3" class="collapse" role="tabpanel" aria-labelledby="headingBasic3">
+							<div class="collapser-body">
+								<p>Sim, mas é necessário criar um domínio ou subdomínio para cada tipo de plataforma. Exemplo: dominio.com (PHP) e api.dominio.com (Node).</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingTwo">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault5" aria-expanded="false" aria-controls="collapseDefault5">
+								<span class="collapser-title">Por que a Umbler não tem a o release v.5 do Node.js?</span>
+							</a>
+						</div>
+						<div id="collapseDefault5" class="collapse" role="tabpanel" aria-labelledby="headingBasic3">
+							<div class="collapser-body">
+								<p>A Umbler utiliza a imagem oficial do DockerHub, que eventualmente remove alguma versão de seu pacote. Acompanhe os releases pelo site <a href="https://hub.docker.com/_/node/" target="_blank">DockerHub. <span class="icon icon-expand-link "></span></a></p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingTwo">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault4" aria-expanded="false" aria-controls="collapseDefault4">
+								<span class="collapser-title">Como os estouros de recursos nos processos Node.js são tratados pela Umbler?</span>
+							</a>
+						</div>
+						<div id="collapseDefault4" class="collapse" role="tabpanel" aria-labelledby="headingBasic3">
+							<div class="collapser-body">
+								<p>O orquestrador utilizado em nossa estrutura de container (Swarm), faz o gerenciamento de consumo dos containers de forma automática. Caso alguma requisição atinja 100% da capacidade do servidor, o orquestrador encerrará este processo e iniciará um novo container, fazendo o recycle. A requisição ativa, no início do processo de recycle, retornará erro 503, enquanto as requisições na fila de processamento serão mantidas até a inicialização completa do novo container.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingTwo">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault7" aria-expanded="false" aria-controls="collapseDefault4">
+								<span class="collapser-title">O Node.js na Umbler é em containers?</span>
+							</a>
+						</div>
+						<div id="collapseDefault7" class="collapse" role="tabpanel" aria-labelledby="headingBasic3">
+							<div class="collapser-body">
+								<p>Sim! Atualmente, somente os ambientes Node.js são estruturados no modelo de containers.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="card collapser-container">
+						<div class="collapser-header" role="tab" id="headingTwo">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion-default" href="#collapseDefault6" aria-expanded="false" aria-controls="collapseDefault4">
+								<span class="collapser-title">Qual a diferença entre containers e virtualização?</span>
+							</a>
+						</div>
+						<div id="collapseDefault6" class="collapse" role="tabpanel" aria-labelledby="headingBasic3">
+							<div class="collapser-body">
+								<p>Na virtualização, o ambiente encapsula o sistema operacional completo, com muitos processos. Na conteinerização, o ambiente encapsula apenas um processo.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="my-4">
+					<h6 class="mb-2">Tutoriais e guias de utilização do Node.js</h6>
+					
+					<a href="https://help.umbler.com/hc/pt-br/articles/115001793863-Node-JS-na-Umbler" class="btn btn-sm btn-secondary" target="_blank">Conheça nossa Central de ajuda<span class="icon icon-expand-link ml-1"></span></a>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</section>
+
+
+			
+<footer id="footer" class="overflow-hidden">
+    <div class="container pt-1 pt-sm-5 pos-relative">
+        <div class="row flex-lg">
+            <div class="col-lg-4 push-lg-8 pos-relative hidden-xs-down">
+                <div class="footer-anchor card pb-4 mb-0 bg-primary flex-lg flex-lg-top overflow-hidden active">
+                    <div class="footer-anchor-content card-block overflow-hidden">
+											<div class="subheading small mb-3">
+												<a href="//blog.umbler.com" class="text-white" target="_blank">Blog<span class="icon icon-expand-link ml-1"></span></a>
+												<span class="d-block text-primary-light mt-1 small">É disso que estamos falando!</span>
+											</div>
+
+											<div class="footer-anchor-item active">
+												<div class="row">
+													<div class="col-md-9 col-lg-12">
+														<a href="javascript:;" class="text-white font-italic h4 footer-anchor-link font-normal" target="_blank"></a>
+														<span class="text-primary-light font-italic text-decoration-none">Espere um pouco, algo incrível está prestes a aparecer aqui...</span>
+													</div>
+												</div>
+											</div>
+                    </div>
+
+                    <!-- social -->
+                    <div class="px-4 ml-auto flex-lg-item-bottom">
+                        <div class="subheading text-primary-light mb-2">Siga-me!</div>
+                        <ul class="list-unstyled umbler-social flex-xs">
+													<li><a href="https://www.facebook.com/umbler" target="_blank"><i class="icon icon-brand-facebook"></i></a></li>
+													<li><a href="https://twitter.com/umbler" target="_blank"><i class="icon icon-brand-twitter"></i></a></li>
+													<li><a href="https://www.instagram.com/instaumbler/" target="_blank"><i class="icon icon-brand-instagram"></i></a></li>
+													<li><a href="https://www.youtube.com/umbler" target="_blank"><i class="icon icon-brand-youtube"></i></a></li>
+													<li><a href="https://medium.com/@umbler" target="_blank"><i class="icon icon-brand-medium"></i></a></li>
+													<li><a href="https://www.linkedin.com/company/umbler" target="_blank"><i class="icon icon-brand-linkedin"></i></a></li>
+                        </ul>
+                    </div>
+                    <img src="/assets/tpl/umblerito-footer.svg?v=20180608034705" alt="Umblerito mascote da Umbler" class="mascote-coala pos-absolute z-i-2 hidden-sm-down" width="190" />
+                </div>
+            </div> 
+            
+            <div class="col-lg-8 pull-lg-4">
+                <div class="row pt-4">
+
+                    <dl class="col-sm-4 text-xs-center text-sm-left mb-3">
+                        <dt class="subheading mb-3 text-primary">Soluções</dt>
+                        <dd>
+													<a href="/br/hospedagem-de-sites/">Hospedagem de Sites</a>
+                        </dd>
+												<dd>
+													<a href="/br/hospedagem-nodejs/">Hospedagem Node.js</a>
+                        </dd>
+												<dd>
+													<a href="/br/hospedagem-wordpress/">Hospedagem Wordpress</a>
+                        </dd>
+												<dd>
+													<a href="/br/hospedagem-php/">Hospedagem PHP</a>
+                        </dd>
+                        <dd>
+													<a href="/br/email-profissional/">E-mail profissional</a>
+                        </dd>
+												<dd>
+													<a href="/br/email-exchange/">E-mail Exchange</a>
+                        </dd>
+                        <dd>
+													<a href="/br/registro-de-dominio/">Registro de domínio</a>
+                        </dd>
+                        <dd>
+													<a href="/br/cloud-sites/">Cloud Sites</a>
+                        </dd>
+                        <dd>
+													<a href="/br/desenvolvedores/">Agências e desenvolvedores</a>
+                        </dd>
+                    </dl>
+
+                    <dl class="col-sm-4 text-xs-center text-sm-left mb-3">
+                        <dt class="subheading mb-3 text-primary">Umbler <span class="icon icon-vote-heart"></span></dt>
+                        <dd>
+													<a href="/br/sobre/">Sobre Nós</a>
+                        </dd>
+												<dd>
+													<a href="/br/precos/">Preços</a>
+                        </dd>
+                        <dd>
+													<a href="/br/precos/calculadora/">Calculadora</a>
+                        </dd>
+												<dd>
+													<a href="/br/compare/umbler-vs-cpanel/">Umbler vs cPanel</a>
+                        </dd>
+												<dd>
+													<a href="/br/compare/umbler-vs-vps/">Umbler vs VPS</a>
+                        </dd>
+												<dd>
+													<a href="/br/sobre/brand/">Guia da marca</a>
+                        </dd>
+												<dd>
+                          <a href="http://status.umbler.com" target="_blank" rel="nofollow">Status</a>
+                        </dd>
+												<dd>
+													<a href="/br/converse-com-um-especialista/">Contato de vendas</a>
+                        </dd>
+                    </dl>
+
+                    <dl class="col-sm-4 text-xs-center text-sm-left mb-3">
+                        <dt class="subheading mb-3 text-primary">Materiais</dt>
+												<dd>
+                          <a href="//blog.umbler.com/" target="_blank">Blog</a>
+                        </dd>
+                        <dd>
+                          <a href="//academy.umbler.com/" target="_blank">Academy</a>
+                        </dd>
+												<dd>
+                          <a href="//help.umbler.com" target="_blank">Central de Ajuda</a>
+                        </dd>
+                    </dl>
+                
+                </div>
+
+                <div class="footer-copyright flex-sm flex-sm-middle my-3 text-xs-center text-sm-left">
+									<a class="mr-2 hidden-xs-down" href="/br/">
+										<svg class="img-svg img-logo">
+											<use xlink:href="#img-umbler-favicon"></use>
+										</svg>
+									</a>
+									<b class="mr-3 hidden-lg-down">Umbler, Inc. &copy; 2018</b>
+									<small>
+											<a href="/br/legal/termos-de-servico/">Termos de Serviço</a> <span class="text-gray-light small">•</span> 
+											<a href="/br/legal/politica-de-uso/">Política de Uso</a> <span class="text-gray-light small">•</span>
+											<a href="/br/legal/politica-de-privacidade/">Política de Privacidade</a>
+									</small>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</footer>
+<!-- /#footer -->
+
+<a id="back-top" href="javascript:void(0);" rel="nofollow" class="icon icon-arrow-upward icon-inverse icon-3x hidden-sm-down"></a>
+    </div>
+
+    <nav id="menu-mobile">
+    <ul>
+        <li class="top-signin pr-3 pb-2 mb-3">
+            <a href="https://app.umbler.com/account/register" rel="nofollow" class="btn btn-success d-inline float-xs-right">Experimente grátis!</a>
+            <a href="https://app.umbler.com" target="_blank" rel="nofollow" class="login font-bold">Login</a>
+        </li>
+        <li>
+					<a href="/br/">Home</a>
+        </li> 
+        <li>
+					<a href="/br/precos/">Preços</a>
+        </li>
+				<li>
+					<a href="/br/sobre/">Sobre Nós</a>
+        </li>
+
+        <!-- Características -->
+        <li>
+          <a class="h6 font-bold mt-3 text-primary">Soluções</a>
+        </li>
+        <li>
+					<a href="/br/hospedagem-de-sites/">Hospedagem de Sites</a>
+        </li>
+        <li>
+					<a href="/br/hospedagem-nodejs/">Hospedagem Node.js</a>
+        </li>
+				<li>
+					<a href="/br/registro-de-dominio/">Registro de domínio</a>
+        </li>
+        <li>
+					<a href="/br/email-profissional/">Email Profissional</a>
+        </li>
+        <li>
+					<a href="/br/email-exchange/">E-mail Exchange</a>
+        </li>
+        <li>
+          <a class="h6 font-bold mt-3 text-primary">Materiais</a>
+        </li>
+				<li>
+          <a href="//help.umbler.com">Central de Ajuda</a>
+        </li>
+        <li>
+          <a href="//blog.umbler.com/br/">Blog</a>
+        </li>
+				<li>
+					<a href="//academy.umbler.com/">Academy</a>
+				</li>
+
+        <li class="mt-3">
+            <a href="https://www.linkedin.com/company/umbler" target="_blank">
+              <i class="icon icon-brand-linkedin icon-primary mr-1"></i> LinkedIn
+            </a>
+
+            <a href="https://twitter.com/umbler" target="_blank">
+              <i class="icon icon-brand-twitter icon-primary mr-1"></i> Twitter
+            </a>
+
+            <a href="https://www.facebook.com/umbler" target="_blank">
+              <i class="icon icon-brand-facebook icon-primary mr-1"></i> Facebook
+            </a>
+
+            <a href="https://plus.google.com/u/1/b/102268312750270051863" target="_blank">
+              <i class="icon icon-brand-google icon-primary mr-1"></i> Google+
+            </a>
+
+            <a href="https://blog.umbler.com/br/feed" target="_blank">
+              <i class="icon icon-content-bookmark icon-primary mr-1"></i> RSS
+            </a>
+        </li>
+    </ul>
+</nav>
+
+    <!-- jQuery, Tether and Bootstrap JS -->
+    <script src="//cdn.jsdelivr.net/combine/npm/jquery@3.1.1,npm/underscore@1.8.3,npm/tether@1.4.0,npm/bodymovin@4.13.0"></script>
+    <script src="//static.umbler.com/umbootstrap/assets/dist/js/bootstrap.min.js"></script>
+    <script src="//static.umbler.com/umbootstrap/themes/umbler-site/dist/js/theme.min.js?v=1"></script>
+    <script src="/js/libs.min.js?v=gZpmd-gB7Vtg6JuTBBlMO96GXNoPBksT7Lo6D_Tn4_Q"></script>
+    
+    
+        <script src="/js/intercom.js?v=c70aZZzsw0_vcBCK4OTp0KZjXvwesWqqKGmsAs3l16w"></script>
+    
+
+    
+	<script src="/js/libs/counter.min.js"></script>
+	<script src="/js/libs/typed.custom.js"></script>
+  <script src="/js/pages/webhosting-node.js?v=TwUqY1TaTaIv0jYkT8kpMUHMdFOlMHTUqC2PbzhdT2g"></script>
+
+
+    <!--[if lte IE 9]>
+       <div class="browserupgrade">
+            <h4 class="text-white">O seu navegador est&aacute; desatualizado!</h4>
+            <p>Atualize o seu navegador para ter uma melhor experi&ecirc;ncia e visualiza&ccedil;&atilde;o deste site. <a class="btn-browserupgrade" href="http://outdatedbrowser.com/pt-br">Atualize o seu navegador agora</a></p>
+        </div>
+        <script src="https://cdn.jsdelivr.net/g/excanvas@r3(excanvas.compiled.js),html5shiv@3.7.3"></script>
+        <script src="https://cdn.jsdelivr.net/g/respond@1.4.2,rem@1.3.4"></script>
+        <script src="https://cdn.jsdelivr.net/svg4everybody/2.1.3/svg4everybody.min.js"></script>
+        <script>svg4everybody();</script>
+    <![endif]-->
+
+</body>
+</html>

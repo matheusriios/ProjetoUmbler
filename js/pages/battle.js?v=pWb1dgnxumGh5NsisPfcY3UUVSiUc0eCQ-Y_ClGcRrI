@@ -1,0 +1,216 @@
+$(function () {
+
+	// fn
+	battleStick();
+	battleAnchors();
+	bgLazyLoad();
+	toasty();
+
+	setTimeout(function() {
+		$('.battle-players').addClass('show');
+	}, 800);
+
+	enquire.register("screen and (min-width: 992px)", [{ 
+		match : function() { 
+			battleCards()
+		} 
+	}]);
+		
+	// events
+	window.dataLayer = window.dataLayer || [];
+	$('#cta-round1').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-compare-round-1'})
+	})
+
+	$('#cta-round2').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-compare-round-2'})
+	})
+
+	$('#cta-roundfinal').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-compare-final-round'})
+	})
+
+});
+
+
+function battleStick() {
+
+	$('.battle-bar').stickit({
+		zIndex: 900
+	});
+
+	enquire.register("screen and (max-width: 767px)", [
+		{ 
+			match : function() { 
+
+				$('.battle-divider').stickit({
+					top: 141,
+					zIndex: 200
+				});
+
+			} 
+		}
+	]);
+
+	enquire.register("screen and (min-width: 768px) and (max-width: 991px)", [
+		{ 
+			match : function() { 
+
+				$('.battle-divider').stickit({
+					top: 157,
+					zIndex: 200
+				});
+
+			} 
+		}
+	]);
+
+	enquire.register("screen and (min-width: 992px)", [
+		{ 
+			match : function() { 
+				$('.battle-divider').stickit({
+					top: 168,
+					zIndex: 200
+				});
+			} 
+		}
+	]);
+
+}
+
+function battleAnchors() {
+
+	// Javascript to enable link to tab
+	var url = document.location.toString();
+	if (url.match('#')) {
+		$('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+	} 
+
+	// Change hash for page-reload
+	$('.nav-tabs a').on('shown.bs.tab', function(e) {
+		window.location.hash = e.target.hash;
+	})
+
+}
+
+function battleCards() {
+	window.sr = new ScrollReveal({
+		reset: true,
+		viewOffset: { top: 100 },
+		distance: '150px'
+		//useDelay: 'always'
+	})
+
+	var card1 = {
+		origin: "top",
+		rotate: { y: 0, z: -20 },
+		duration: 400
+	}
+
+	var card2 = {
+		origin: "bottom",
+		rotate: { y: 0, z: 20 },
+		duration: 600
+	}
+
+	sr.reveal("#battle .battle-card-p1", card1)
+	sr.reveal("#battle .battle-card-p2", card2)
+}
+
+function bgLazyLoad() {
+
+	function BackgroundNode({node, loadedClassName}) {
+		let src = node.getAttribute('data-background-image-url');
+		let show = (onComplete) => {
+			requestAnimationFrame(() => {
+				node.style.backgroundImage = `url(${src})`
+				node.classList.add(loadedClassName);
+				onComplete();
+			})
+		}
+	
+		return {
+			node,
+	
+			// onComplete is called after the image is done loading.
+			load: (onComplete) => {
+				let img = new Image();
+				img.onload = show(onComplete);
+				img.src = src;
+			}
+		}
+	}
+	
+	let defaultOptions = {
+		selector: '[data-background-image-url]',
+		loadedClassName: 'loaded'
+	}
+	
+	function BackgroundLazyLoader({selector, loadedClassName} = defaultOptions) {
+		let nodes = [].slice.apply(document.querySelectorAll(selector))
+			.map(node => new BackgroundNode({node, loadedClassName}));
+	
+		let callback = (entries, observer) => {
+			entries.forEach(({target, isIntersecting}) => {
+				if (!isIntersecting) {
+					return;
+				}
+	
+				let obj = nodes.find(it => it.node.isSameNode(target));
+				
+				if (obj) {
+					obj.load(() => {
+						// Unobserve the node:
+						observer.unobserve(target);
+						// Remove this node from our list:
+						nodes = nodes.filter(n => !n.node.isSameNode(target));
+						
+						// If there are no remaining unloaded nodes,
+						// disconnect the observer since we don't need it anymore.
+						if (!nodes.length) {
+							observer.disconnect();
+						}
+					});
+				}
+			})
+		};
+		
+		let observer = new IntersectionObserver(callback);
+		nodes.forEach(node => observer.observe(node.node));
+	};
+	
+	BackgroundLazyLoader();
+}
+
+function toasty() {
+
+	$('body').append('<div id="toasty" class="toasty animated slideInRight duration-200" style="display: none;"><span class="toasty-adriano"></span></div>');
+
+	$(document).on('keyup',
+    Konami.code(function() {
+
+			var toasty = $('#toasty');
+			
+			var random = Math.floor(Math.random() * 3) + 0;
+			var toastyImage = [
+				"toasty-adriano",
+				"toasty-sartori",
+				"toasty-fontella"
+			];
+			$('#toasty span').removeClass().addClass(toastyImage[random]);
+			
+			toasty.show();
+
+			toasty.removeClass('hide');
+			toasty.show();
+
+			setTimeout(function(){
+				toasty.addClass('hide');
+			},1200);
+
+			var audio = new Audio('/assets/battle/toasty.mp3');
+  		audio.play();
+    })
+	);
+	
+}

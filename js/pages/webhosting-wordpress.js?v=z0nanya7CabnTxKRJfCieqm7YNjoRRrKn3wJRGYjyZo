@@ -1,0 +1,25 @@
+var $ = window.$
+var bodymovin = window.bodymovin
+
+function bodyMovin () {
+  bodymovin.loadAnimation({
+    container: document.getElementById('wp-addons-animated'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '/assets/webhosting-wordpress/data-icon-addons.json'
+  })
+}
+
+$(function () {
+
+	bodyMovin()
+	$('.wp-header-app-img').delay(400).animate({opacity: 1}, 'normal')
+	
+	// events
+	window.dataLayer = window.dataLayer || [];
+	$('#cta-header-wordpress').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-wordpress-header'})
+	})
+
+})

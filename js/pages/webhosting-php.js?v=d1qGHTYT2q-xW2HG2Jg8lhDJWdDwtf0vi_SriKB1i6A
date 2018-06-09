@@ -1,0 +1,146 @@
+// bodyMovin
+var $ = window.$
+var bodymovin = window.bodymovin
+
+function bodyMovin () {
+  bodymovin.loadAnimation({
+    container: document.getElementById('php-addons-animated'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '/assets/webhosting-php/data-icon-addons.json'
+	})
+
+	bodymovin.loadAnimation({
+    container: document.getElementById('php-version-animated'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '/assets/webhosting-php/data-php-version.json'
+	})
+
+	bodymovin.loadAnimation({
+    container: document.getElementById('php-dropdown-animated'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: '/assets/webhosting-php/data-php-dropdown.json'
+	})
+}
+
+// typer
+function setupTypewriter(t) {
+	var HTML = t.innerHTML;
+
+	t.innerHTML = "";
+
+	var cursorPosition = 0,
+			tag = "",
+			writingTag = false,
+			tagOpen = false,
+			typeSpeed = 100,
+		tempTypeSpeed = 0;
+
+	var type = function() {
+		
+			if (writingTag === true) {
+					tag += HTML[cursorPosition];
+			}
+
+			if (HTML[cursorPosition] === "<") {
+					tempTypeSpeed = 0;
+					if (tagOpen) {
+							tagOpen = false;
+							writingTag = true;
+					} else {
+							tag = "";
+							tagOpen = true;
+							writingTag = true;
+							tag += HTML[cursorPosition];
+					}
+			}
+			if (!writingTag && tagOpen) {
+					tag.innerHTML += HTML[cursorPosition];
+			}
+			if (!writingTag && !tagOpen) {
+					if (HTML[cursorPosition] === " ") {
+							tempTypeSpeed = 0;
+					}
+					else {
+							tempTypeSpeed = (Math.random() * typeSpeed) + 50;
+					}
+					t.innerHTML += HTML[cursorPosition];
+			}
+			if (writingTag === true && HTML[cursorPosition] === ">") {
+					tempTypeSpeed = (Math.random() * typeSpeed) + 50;
+					writingTag = false;
+					if (tagOpen) {
+							var newSpan = document.createElement("span");
+							t.appendChild(newSpan);
+							newSpan.innerHTML = tag;
+							tag = newSpan.firstChild;
+					}
+			}
+
+			cursorPosition += 1;
+			if (cursorPosition < HTML.length - 1) {
+					setTimeout(type, tempTypeSpeed);
+			}
+
+	};
+
+	return {
+			type: type
+	};
+}
+
+// scrollVideo
+function scrollVideo() {
+	var inner = $(".php-panel");
+	var video = $('#php-video');
+	var elementPosTop = inner.position().top;
+	var videoHeight = video.outerHeight();
+	var viewportHeight = $(window).height();
+	$(window).on('scroll', function() {
+			var scrollPos = $(window).scrollTop();
+			var elementFromTop = elementPosTop - scrollPos;
+			
+			if (elementFromTop > -videoHeight && elementFromTop < elementPosTop + viewportHeight) {
+				video.trigger('play');
+			} else {
+				video.trigger('pause');
+			}
+	});
+}
+
+$(function () {
+
+	// console PHP
+	var typer = document.getElementById('typewriter');
+	setTimeout(function(){
+		$('.code-highlighter').removeAttr("style")
+		typewriter = setupTypewriter(typewriter);
+		typewriter.type();
+	}, 2000);
+
+	// show sun
+	setTimeout(function(){
+		$('#php-sun-wrapper').addClass('show');
+	}, 3000);
+
+	// bodyMovin
+	bodyMovin()
+
+	// rellax
+	var rellax = new Rellax('.rellax');
+
+	// video
+	scrollVideo();
+
+	// events
+	window.dataLayer = window.dataLayer || [];
+	$('#cta-header-php').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-php-header'})
+	})
+	
+})

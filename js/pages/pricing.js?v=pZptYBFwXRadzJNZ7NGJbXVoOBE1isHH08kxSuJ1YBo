@@ -1,0 +1,63 @@
+$(function () {
+
+    var rowPlan = $('#plans-pricing .plans');
+
+    // Efeito da tabela de pre�os
+    rowPlan.hover(
+        function () {
+            $(this).addClass('box-hover');
+        }, function () {
+            $(this).removeClass('box-hover');
+        }
+    );   
+
+    /*
+    * Cloud Sites Slider
+    */
+    var cloudPrice = $('#plan-cloudsites .price');
+    var cloudSitesAmount = $('#plan-cloudsites .quantity'); 
+    var cloudLinksSizes = $('#plan-cloudsites .sizes a');
+    var cloudSiteRAM = $('#plan-cloudsites .ram');
+    var cloudSiteProc = $('#plan-cloudsites .proc');
+    var cloudSiteHD = $('#plan-cloudsites .hd');
+    var cloudPriceCurrent = 0        
+
+    cloudLinksSizes.click(function () {
+
+        cloudLinksSizes.removeClass('selected');
+        $(this).addClass('selected');
+
+        cloudPriceCurrent = $(this).data('price');
+        thisCloudVal = $(this).data('val');
+        thisCloudRAM = $(this).data('ram');
+        thisCloudProc = $(this).data('proc');
+        thisCloudHD = $(this).data('hd');
+            
+        cloudPrice.text(cloudPriceCurrent);
+        cloudSitesAmount.text(thisCloudVal);
+        cloudSiteRAM.text(thisCloudRAM);
+        cloudSiteProc.text(thisCloudProc);
+        cloudSiteHD.text(thisCloudHD);
+    });
+
+    // Email Pricing
+    $('.js-switch label').on('click', function () {
+        $('.js-switch, .plans-email-container').toggleClass('active');
+    });
+
+    $('.js-switch-umbler').on('click', function () {
+        $('.js-switch, .plans-email-container').removeClass("active");
+    });
+
+    $('.js-switch-exchange').on('click', function () {
+        $('.js-switch, .plans-email-container').addClass("active");
+		});
+		
+		// events
+		window.dataLayer = window.dataLayer || [];
+		$('#cta-header-pricing').click(function () {
+			window.dataLayer.push({ 'event': 'click-event-prices-header'})
+		})
+
+});
+

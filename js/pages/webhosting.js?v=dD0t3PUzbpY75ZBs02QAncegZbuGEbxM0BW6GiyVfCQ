@@ -1,0 +1,232 @@
+/*
+ * Formul�rio avise-me! 
+ */
+var WebHosting = {
+
+    openModal: function (language) {
+        $('#modalLanguageSoon').modal('show');
+        $('#language').val(language);
+    },
+
+    init: function () {
+        var languageSoonForm = $('#form-language-soon');
+
+        languageSoonForm.validate({
+            highlight: function (element, errorClass, validClass) {
+                $(element).parents('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).parents('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            rules: {
+                'name': {
+                    required: true, 
+                    minlength: 5
+                },
+                'wh-email': {
+                    required: true,
+                    email: true
+                }
+            },
+            errorPlacement: function (error, element) { },
+            onfocusout: function (element) {
+                $(element).valid();
+            }
+        });
+
+        languageSoonForm.off('submit');
+
+        // Mailgun
+        languageSoonForm.submit(function (e) {
+            if (e.preventDefault)
+                e.preventDefault();
+
+            if (!languageSoonForm.valid())
+                return;
+
+            run_validator($('#wh-email').val(), {
+
+                api_key: 'pubkey-94bc9e0f6e31bb805589b095586cce3d',
+
+                success: function (data) {
+                    if (!data.is_valid) {
+                        addEmailError(languageSoonForm);
+                        return;
+                    }
+
+                    var contact = {
+                        name: $('#name').val(),
+                        email: $('#wh-email').val()
+                    };
+
+                    var language = $('#language').val();
+                    var sendNews = $('#receive-newsletter').is(':checked');
+
+                    _rq.push(['updateContact', contact, function () {
+                        _rq.push(['trackEvent', getEventName(language)]);
+
+                        if (sendNews)
+                            _rq.push(['trackEvent', 'SignUpNewsletter']);
+                    }]);
+
+                    $('#modalLanguageSoon').modal('hide');
+                    cleanUp(languageSoonForm);
+                },
+                error: function () {
+                    addEmailError(languageSoonForm);
+                }
+            });
+        });
+
+        function getEventName(language) {
+            var prefix = 'Site - Notify';
+
+            switch (language) {
+                case 'nodejs':
+                    return prefix + "NodeJs";
+                case 'python':
+                    return prefix + "Python";
+                case 'ruby':
+                    return prefix + "Ruby";
+                case 'java':
+                    return prefix + 'Java';
+            }
+        }
+
+        // Resetando a valida��o do form
+        function cleanUp(form) {
+            form[0].reset();
+            form.validate().resetForm();
+            form.find('.has-success').removeClass("has-success");
+            $("#contact").find('.has-success').removeClass("has-success");
+        }
+
+        function addEmailError(form) {
+            var validator = languageSoonForm.validate();
+
+            validator.showErrors({
+                'wh-email': ''
+            });
+        };
+    }
+}
+
+$(function () {
+
+	/*
+		* Videos das features
+		*/
+	var featureVideoTempoReal = document.getElementById("video-feature-realtime");
+	var featureVideoTemplates = document.getElementById("video-feature-templates");
+	var featureVideoBackup = document.getElementById("video-feature-backup");
+
+	featureVideoTempoReal.pause();
+	featureVideoTemplates.pause();
+	featureVideoBackup.pause();
+
+	$("#video-feature-realtime").click(function () {
+			featureVideoTempoReal.play();
+	});
+
+	$("#video-feature-templates").click(function () {
+			featureVideoTemplates.play();
+	});
+
+	$("#video-feature-backup").click(function () {
+			featureVideoBackup.play();
+	});
+
+	// Modal de breve linguagens 
+	var langsFutureLogo = $('.languages .logo');
+
+	langsFutureLogo
+			.mouseenter(function () {
+					$(this).addClass('colored');
+			})
+			.mouseout(function () {
+					$(this).removeClass('colored');
+			});
+
+	WebHosting.init();
+
+	langsFutureLogo.click(function (e) {
+			var language = $(this).data('language');
+			WebHosting.openModal(language);
+	});
+
+	// Do javascript for non-mobile
+	if ($('body').hasClass('is-desktop')) {
+			/*
+				* Loop: up downgrade
+				*/
+			var upDowngradeImg = $('#up-downgrade-image');
+			var counterLoop = 1;
+
+			function upDowngradeLoop() {
+					upDowngradeImg.removeClass("a b c d");
+
+					switch (counterLoop) {
+							case 1: upDowngradeImg.addClass('a'); break;
+							case 2: upDowngradeImg.addClass('b'); break;
+							case 3: upDowngradeImg.addClass('c'); break;
+							case 4:
+									upDowngradeImg.addClass('d');
+									counterLoop = 0;
+									break;
+					}
+					counterLoop++;
+			}
+
+			upDowngradeLoop();
+
+			setInterval(upDowngradeLoop, 2500);
+
+			/*
+				* Tabs: ideal para devs
+				*/
+			var tabsLinks = $('#devs-tabs a');
+			var appSlides = $('#devs .app-slide');
+
+			function showHideAppSlide(linkActive) {
+					var numberSlideActive = linkActive.data('num-slide');
+					var imageSlideActive = $('#devs img.' + numberSlideActive);
+
+					tabsLinks.removeClass('active');
+					linkActive.addClass('active');
+
+					appSlides.addClass('animate-fadeout').removeClass('animate-fadein');
+					imageSlideActive.removeClass('animate-fadeout').addClass('animate-fadein');
+			}
+
+			var counterLoopSlides = 1;
+			var tabLinkA = $('#devs-tabs a[data-num-slide="a"]');
+			var tabLinkB = $('#devs-tabs a[data-num-slide="b"]');
+			var tabLinkC = $('#devs-tabs a[data-num-slide="c"]');
+
+			function loopAppSlides() {
+					switch (counterLoopSlides) {
+							case 1: showHideAppSlide(tabLinkB); break;
+							case 2: showHideAppSlide(tabLinkC); break;
+							case 3:
+									showHideAppSlide(tabLinkA)
+									counterLoopSlides = 0;
+									break;
+					}
+					counterLoopSlides++;
+			}
+	
+			var intervalLoopAppSlides = setInterval(loopAppSlides, 6000);
+
+			tabsLinks.click(function () {
+					showHideAppSlide($(this))
+					clearInterval(intervalLoopAppSlides);
+			});       
+	}
+	
+	// events
+	window.dataLayer = window.dataLayer || [];
+	$('#cta-header-webhosting').click(function () {
+		window.dataLayer.push({ 'event': 'click-event-hosting-header'})
+	})
+
+});

@@ -1,0 +1,119 @@
+const $ = window.$
+
+var notifyRoute = function (eventName, data, callback) {
+  var _route = window._route || function () {}
+  _route(eventName, data, function () {
+    if (callback != null) {
+      callback()
+    }
+  })
+}
+
+function formContact () {
+  $('#formContact').validate({
+    rules: {
+      inputName: {
+        required: true
+      },
+      inputEmail: {
+        required: true,
+        minlength: 3,
+        maxlength: 200
+      },
+      inputPhone: {
+        required: false,
+        minlength: 14,
+        maxlength: 50
+      },
+      inputSubject: {
+        required: true,
+        minlength: 3,
+        maxlength: 200
+      },
+      inputMessage: {
+        required: true,
+        minlength: 10,
+        maxlength: 999
+      }
+    },
+    messages: {
+      inputName: 'Não esqueça o seu nome ;)',
+      inputEmail: 'Preencha seu Email corretamente',
+      inputPhone: 'Preencha seu telefone corretamente',
+      inputSubject: 'Preencha o assunto da mensagem',
+      inputMessage: 'Descreva a sua mensagem'
+    },
+    errorElement: 'div',
+    errorPlacement: function (error, element) {
+      error.addClass('form-control-feedback')
+      if (element.prop('type') === 'checkbox') {
+        error.insertAfter(element.parent('label'))
+      } else {
+        error.insertAfter(element)
+      }
+    },
+
+    highlight: function (element, errorClass, validClass) {
+      $(element).parents('.form-group').addClass('has-danger').removeClass('has-success')
+      $(element).parents('.form-group').find('.form-control').addClass('form-control-danger').removeClass('form-control-success')
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).parents('.form-group').addClass('has-success').removeClass('has-danger')
+      $(element).parents('.form-group').find('.form-control').addClass('form-control-success').removeClass('form-control-danger')
+    },
+
+    submitHandler: function () {
+      $('#btn-contact-form').prop('disabled', true)
+      var formData = {
+        Name: $('#inputName').val(),
+        Email: $('#inputEmail').val(),
+        Phone: $('#inputPhone').val(),
+        Subject: $('#inputSubject').val(),
+        Message: $('#inputMessage').val()
+      }
+
+      var contato = {
+        name: formData.Name,
+        email: formData.Email,
+        phones: [formData.Phone]
+      }
+
+      notifyRoute('identify', contato, function () {
+        notifyRoute('track', 'Solicitou Contato Vendas')
+      })
+
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        type: 'POST',
+        url: '/api/contactForm',
+        data: JSON.stringify(formData),
+        dataType: 'json'
+      })
+        .done(function () {
+          $('#formContact, .sprite-contact').fadeOut('200')
+
+          setTimeout(function () {
+            // $('#formContact').css('display', 'none');
+            $('.form-contact-success').css('display', 'block')
+          }, 500)
+
+          $('.form-contact-success').addClass('animated bounceIn')
+          $('html, body').animate({ scrollTop: 0 }, 'fast')
+        })
+        .fail(function () {
+          console.log('fail')
+        })
+        .always(function () {
+          $('#btn-contact-form').prop('disabled', false)
+        })
+    }
+  })
+}
+
+$(function () {
+  formContact()
+  $('.js-mask-phone').mask('(99) 9999-99999')
+})

@@ -1,0 +1,9 @@
+$(function () {
+
+    var featureVideoWebmail = document.getElementById("video-webmail");
+    featureVideoWebmail.pause();
+
+    $("#video-webmail").click(function () {
+      featureVideoWebmail.play();
+    });
+});
